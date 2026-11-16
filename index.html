@@ -1,0 +1,2982 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="vitals">
+  <title>Ulangan Harian Fisika XII — Medan Magnet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Vitals structure + vibrant academic palette) */
+      --background: #ffffff;
+      --surface-container-low: #f8fafc;
+      --surface-container: #eef2ff;
+      --surface-container-high: #e0e7ff;
+      --surface-cyan-wash: #ecfeff;
+      --surface-emerald-wash: #ecfdf5;
+      --surface-amber-wash: #fffbeb;
+      --surface-rose-wash: #fff1f2;
+
+      /* Text */
+      --on-surface: #0f172a;
+      --on-surface-variant: #475569;
+
+      /* Rules */
+      --outline: #94a3b8;
+      --outline-variant: #e2e8f0;
+
+      /* Accents */
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --on-primary: #ffffff;
+      --primary-container: #eef2ff;
+      --on-primary-container: #3730a3;
+      --secondary: #0891b2;
+      --secondary-bright: #06b6d4;
+      --tertiary: #059669;
+      --tertiary-bright: #10b981;
+      --error: #e11d48;
+      --error-bright: #f43f5e;
+      --on-error: #ffffff;
+      --positive: #059669;
+      --warning: #d97706;
+      --warning-bright: #f59e0b;
+
+      /* Data & diagram series */
+      --data-1: #4f46e5;
+      --data-2: #06b6d4;
+      --data-3: #10b981;
+      --data-4: #f59e0b;
+      --data-5: #f43f5e;
+      --data-context: #cbd5e1;
+
+      /* Focus */
+      --focus: #4f46e5;
+
+      /* Fonts */
+      --font-headline: 'Figtree', sans-serif;
+      --font-body: 'Atkinson Hyperlegible', sans-serif;
+      --font-label: 'Figtree', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Type scale (Focused Tool) */
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.95rem, 0.92rem + 0.15vw, 1.03rem);
+      --label-size: 0.78rem;
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Shape */
+      --rounded: 0.625rem;
+      --rounded-lg: 0.875rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --top-bar: 6px solid var(--primary);
+      --status-bar-width: 4px;
+      --card-border: 1px solid var(--outline-variant);
+      --card-lift: 0 2px 6px rgb(15 23 42 / 0.05), 0 10px 24px rgb(79 70 229 / 0.07);
+      --modal-backdrop: rgb(15 23 42 / 0.62);
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { overflow-x: clip; margin: 0; padding: 0; }
+    header { position: static !important; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      color: var(--on-surface);
+      background: var(--surface-container-low);
+      border-top: var(--top-bar);
+      min-height: 100vh;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1140px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Header */
+    .app-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      background: var(--background);
+      border: var(--card-border);
+      border-left: var(--status-bar-width) solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--card-lift);
+    }
+
+    .header-brand {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .kicker {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--secondary);
+    }
+
+    .app-title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--display-size);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 0;
+      color: var(--on-surface);
+    }
+
+    .app-subtitle {
+      margin: 0;
+      color: var(--on-surface-variant);
+      max-width: 60ch;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Buttons & Interactive states */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      line-height: 1.2;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out),
+                  transform var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
+      text-decoration: none;
+    }
+
+    .btn:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.52;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--background);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--primary-container);
+    }
+
+    .btn-cyan {
+      background: var(--secondary);
+      color: var(--on-primary);
+    }
+    .btn-cyan:hover:not(:disabled) {
+      background: var(--on-surface);
+    }
+
+    .btn-emerald {
+      background: var(--tertiary);
+      color: var(--on-primary);
+    }
+    .btn-emerald:hover:not(:disabled) {
+      background: var(--on-surface);
+    }
+
+    .btn-danger {
+      background: var(--error);
+      color: var(--on-error);
+    }
+    .btn-danger:hover:not(:disabled) {
+      background: var(--on-surface);
+    }
+
+    .btn-ghost {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border-color: var(--outline-variant);
+    }
+    .btn-ghost:hover:not(:disabled) {
+      background: var(--surface-container);
+    }
+
+    /* Cards & Status Accent Bars */
+    .card {
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--card-lift);
+    }
+
+    .status-card {
+      background: var(--background);
+      border: var(--card-border);
+      border-left: var(--status-bar-width) solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .status-card[data-status="cyan"]    { border-left-color: var(--secondary-bright); }
+    .status-card[data-status="ok"]      { border-left-color: var(--tertiary-bright); }
+    .status-card[data-status="warning"] { border-left-color: var(--warning-bright); }
+    .status-card[data-status="alert"]   { border-left-color: var(--error-bright); }
+
+    /* Chips */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .chip[data-status="cyan"]    { background: var(--surface-cyan-wash); color: var(--secondary); }
+    .chip[data-status="ok"]      { background: var(--surface-emerald-wash); color: var(--tertiary); }
+    .chip[data-status="warning"] { background: var(--surface-amber-wash); color: var(--warning); }
+    .chip[data-status="alert"]   { background: var(--surface-rose-wash); color: var(--error); }
+
+    /* Views */
+    .view-section {
+      display: none;
+      animation: fadeSlideIn var(--dur-short) var(--ease-out);
+    }
+    .view-section.active {
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Login Grid */
+    .login-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    .form-label {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--on-surface);
+    }
+
+    .form-hint {
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+    }
+
+    .form-input {
+      width: 100%;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      background: var(--background);
+      color: var(--on-surface);
+      font-size: 1rem;
+      transition: border-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+
+    .form-input:hover {
+      border-color: var(--primary);
+    }
+
+    .quick-class-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-top: var(--space-xs);
+    }
+
+    .class-pill {
+      min-height: 34px;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-full);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .class-pill:hover {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--primary);
+    }
+
+    .inline-feedback {
+      display: none;
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      border-left: var(--status-bar-width) solid var(--error);
+      background: var(--surface-rose-wash);
+      color: var(--error);
+      font-weight: 600;
+    }
+    .inline-feedback.visible { display: block; }
+    .inline-feedback[data-tone="ok"] {
+      border-left-color: var(--tertiary);
+      background: var(--surface-emerald-wash);
+      color: var(--tertiary);
+    }
+    .inline-feedback[data-tone="info"] {
+      border-left-color: var(--primary);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    .rule-list {
+      margin: var(--space-sm) 0 0;
+      padding-left: var(--space-lg);
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    /* Proctoring Telemetry Bar */
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .metric-tile {
+      background: var(--background);
+      border: var(--card-border);
+      border-left: var(--status-bar-width) solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .metric-tile[data-status="cyan"]    { border-left-color: var(--secondary-bright); }
+    .metric-tile[data-status="ok"]      { border-left-color: var(--tertiary-bright); }
+    .metric-tile[data-status="warning"] { border-left-color: var(--warning-bright); background: var(--surface-amber-wash); }
+    .metric-tile[data-status="alert"]   { border-left-color: var(--error-bright); background: var(--surface-rose-wash); }
+
+    .metric-label {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--on-surface-variant);
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.5rem;
+      line-height: 1.15;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+    }
+
+    .metric-caption {
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Quiz Navigation Bar */
+    .quiz-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+    }
+
+    .q-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+
+    .q-pill {
+      position: relative;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0 var(--space-sm);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .q-pill:hover {
+      border-color: var(--primary);
+      background: var(--primary-container);
+    }
+    .q-pill.answered {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--primary);
+    }
+    .q-pill.current {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .q-pill .photo-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--warning-bright);
+    }
+    .q-pill .photo-dot.uploaded {
+      background: var(--tertiary-bright);
+    }
+
+    /* Question Card */
+    .question-card {
+      background: var(--background);
+      border: var(--card-border);
+      border-top: 4px solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--card-lift);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .question-card.hots {
+      border-top-color: var(--secondary);
+    }
+
+    .q-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .q-number {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      color: var(--on-surface);
+    }
+
+    .q-diagram-box {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .q-diagram-box svg {
+      width: 100%;
+      max-width: 540px;
+      height: auto;
+      display: block;
+    }
+
+    .q-diagram-caption {
+      font-size: 0.84rem;
+      color: var(--on-surface-variant);
+      text-align: center;
+    }
+
+    .q-prompt {
+      font-size: 1.08rem;
+      line-height: 1.65;
+      margin: 0;
+      max-width: 72ch;
+    }
+
+    /* Options */
+    .options-list {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .option-btn {
+      width: 100%;
+      min-height: 52px;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 1rem;
+      line-height: 1.5;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .option-btn:hover {
+      background: var(--primary-container);
+      border-color: var(--primary);
+    }
+
+    .option-btn.selected {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      box-shadow: inset 0 0 0 1px var(--primary);
+      font-weight: 700;
+    }
+
+    .option-letter {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--rounded);
+      background: var(--background);
+      border: 1px solid var(--outline);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+
+    .option-btn.selected .option-letter {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--on-primary);
+    }
+
+    /* Photo Upload Box for HOTS */
+    .upload-box {
+      border: 2px dashed var(--secondary);
+      border-radius: var(--rounded-lg);
+      background: var(--surface-cyan-wash);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .upload-box.done {
+      border-style: solid;
+      border-color: var(--tertiary);
+      background: var(--surface-emerald-wash);
+    }
+
+    .upload-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .upload-preview-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .upload-thumb {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: var(--rounded);
+      border: var(--card-border);
+      background: var(--background);
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .quiz-footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-top: var(--space-sm);
+    }
+
+    /* Math formatting */
+    .math-var { font-style: italic; }
+    .math-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 0.2em;
+      font-size: 0.92em;
+      line-height: 1.15;
+    }
+    .math-frac > span:first-child {
+      border-bottom: 1.5px solid currentColor;
+      padding: 0 0.25em 1px;
+    }
+    .math-frac > span:last-child {
+      padding: 1px 0.25em 0;
+    }
+
+    /* Result & WA Integration */
+    .score-hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .wa-preview-box {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-left: var(--status-bar-width) solid var(--tertiary);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--on-surface);
+    }
+
+    /* Pembahasan */
+    .solution-item {
+      background: var(--background);
+      border: var(--card-border);
+      border-left: var(--status-bar-width) solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .solution-item.correct { border-left-color: var(--tertiary); }
+    .solution-item.wrong   { border-left-color: var(--error); }
+
+    .formula-box {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    /* Teacher Dashboard & Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--modal-backdrop);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-md);
+      z-index: 50;
+      overflow-y: auto;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-panel {
+      width: 100%;
+      max-width: 980px;
+      max-height: 92vh;
+      overflow-y: auto;
+      background: var(--background);
+      border-radius: var(--rounded-lg);
+      border: var(--card-border);
+      border-top: 6px solid var(--primary);
+      padding: var(--space-lg);
+      box-shadow: var(--card-lift);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .modal-panel.narrow {
+      max-width: 540px;
+    }
+
+    .modal-panel.warning-panel {
+      max-width: 560px;
+      border-top-color: var(--error);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: var(--space-sm);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      border: var(--card-border);
+      border-radius: var(--rounded);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    th {
+      text-align: left;
+      background: var(--surface-container-low);
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: middle;
+    }
+
+    .num-cell {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .gallery-card {
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm);
+      background: var(--surface-container-low);
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .gallery-img {
+      width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+      border-radius: var(--rounded);
+      background: var(--background);
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.84rem;
+      color: var(--on-surface-variant);
+      padding-bottom: var(--space-lg);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-sm);
+        gap: var(--space-md);
+      }
+      .login-layout {
+        grid-template-columns: 1fr;
+      }
+      .app-header {
+        padding: var(--space-md);
+      }
+      .card, .question-card, .modal-panel {
+        padding: var(--space-md);
+      }
+      .quiz-footer-nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-brand">
+        <span class="kicker">Fisika SMA Kelas XII · Evaluasi Bab Medan Magnet</span>
+        <h1 class="app-title">Ulangan Harian Medan Magnet</h1>
+        <p class="app-subtitle">Induksi magnetik kawat berarus, solenoida &amp; toroida, kaidah tangan kanan, dan gaya Lorentz.</p>
+      </div>
+      <div class="header-actions">
+        <button type="button" id="btn-open-teacher" class="btn btn-secondary" onclick="openTeacherModal()">
+          Panel Guru
+        </button>
+      </div>
+    </header>
+
+    <!-- VIEW 1: LOGIN SISWA -->
+    <main id="view-login" class="view-section active">
+      <div class="login-layout">
+        <section class="card" aria-labelledby="login-heading">
+          <span class="chip">Akses Siswa · 1 Kali Pengerjaan</span>
+          <h2 id="login-heading" style="font-family: var(--font-headline); margin: var(--space-sm) 0 var(--space-xs);">Identitas Peserta Ulangan</h2>
+          <p style="color: var(--on-surface-variant); margin-top: 0;">Masukkan nama lengkap dan kelas sesuai daftar presensi. Sistem mengunci kombinasi Nama &amp; Kelas agar tidak dapat mengulang kuis.</p>
+
+          <form id="student-login-form" onsubmit="handleStudentLogin(event)">
+            <div class="form-group">
+              <label class="form-label" for="input-student-name">Nama Lengkap Siswa</label>
+              <input class="form-input" id="input-student-name" type="text" autocomplete="name" placeholder="Contoh: Nadia Putri Pratama" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="input-student-class">Kelas</label>
+              <input class="form-input" id="input-student-class" type="text" placeholder="Contoh: XII IPA 1" required>
+              <span class="form-hint">Pilih cepat kelas atau ketik manual:</span>
+              <div class="quick-class-row">
+                <button type="button" class="class-pill" onclick="fillClass('XII IPA 1')">XII IPA 1</button>
+                <button type="button" class="class-pill" onclick="fillClass('XII IPA 2')">XII IPA 2</button>
+                <button type="button" class="class-pill" onclick="fillClass('XII IPA 3')">XII IPA 3</button>
+                <button type="button" class="class-pill" onclick="fillClass('XII MIPA 1')">XII MIPA 1</button>
+                <button type="button" class="class-pill" onclick="fillClass('XII MIPA 2')">XII MIPA 2</button>
+              </div>
+            </div>
+
+            <button type="submit" id="btn-start-quiz" class="btn btn-primary" style="width: 100%;">
+              Mulai Ulangan Harian (60 Menit)
+            </button>
+          </form>
+
+          <div id="login-feedback" class="inline-feedback" role="alert"></div>
+          <div id="locked-result-actions" style="display: none; margin-top: var(--space-md);">
+            <button type="button" class="btn btn-cyan" onclick="viewExistingSubmission()">
+              Lihat Hasil Pengerjaan Saya
+            </button>
+          </div>
+        </section>
+
+        <aside class="status-card" data-status="cyan" aria-labelledby="rules-heading">
+          <span class="chip" data-status="cyan">Tata Tertib &amp; Proctoring</span>
+          <h2 id="rules-heading" style="font-family: var(--font-headline); margin: var(--space-sm) 0 var(--space-xs);">Ketentuan Pelaksanaan</h2>
+          <ul class="rule-list">
+            <li><strong>10 Soal Acak:</strong> Terdiri dari <strong>5 soal teori</strong> berdiagram fisika dan <strong>5 soal hitungan HOTS</strong>. Urutan soal dan opsi A–E diacak otomatis untuk tiap siswa.</li>
+            <li><strong>Unggah Foto Pengerjaan:</strong> Setiap soal hitungan HOTS wajib melampirkan foto coretan/langkah pengerjaan (dengan pratinjau langsung).</li>
+            <li><strong>Timer 60 Menit:</strong> Hitung mundur berjalan otomatis dan mengumpulkan jawaban saat waktu mencapai <code>00:00</code>.</li>
+            <li><strong>Anti-Curang Keluar Tab:</strong> Sistem memantau perpindahan tab/jendela dengan peringatan bel audio nyaring. Batas toleransi <strong>2 kali</strong>; pelanggaran <strong>ke-3</strong> memicu pengumpulan paksa otomatis.</li>
+            <li><strong>Pembahasan Terkunci:</strong> Kunci jawaban dan pembahasan detail hanya dapat dibuka setelah ujian selesai menggunakan kode akses guru.</li>
+          </ul>
+          <div style="margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--outline-variant);">
+            <button type="button" class="btn btn-ghost" onclick="testBuzzerTone()">
+              Uji Suara Bel Peringatan
+            </button>
+            <span id="buzzer-test-msg" class="form-hint" style="margin-left: var(--space-sm);"></span>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- VIEW 2: KUIS AKTIF -->
+    <section id="view-quiz" class="view-section" aria-label="Area Pengerjaan Kuis">
+      <!-- Telemetry Proctoring Strip -->
+      <div class="telemetry-grid">
+        <div class="metric-tile" id="tile-student">
+          <span class="metric-label">Peserta Aktif</span>
+          <span class="metric-value" id="quiz-student-display" style="font-family: var(--font-headline); font-size: 1.15rem;">—</span>
+          <span class="metric-caption" id="quiz-class-display">—</span>
+        </div>
+        <div class="metric-tile" id="tile-timer" data-status="cyan">
+          <span class="metric-label">Sisa Waktu</span>
+          <span class="metric-value" id="quiz-timer">60:00</span>
+          <span class="metric-caption">Auto-submit saat 00:00</span>
+        </div>
+        <div class="metric-tile" id="tile-progress" data-status="ok">
+          <span class="metric-label">Progres Jawaban</span>
+          <span class="metric-value" id="quiz-progress-text">0 / 10</span>
+          <span class="metric-caption" id="quiz-photo-text">Foto HOTS: 0 / 5</span>
+        </div>
+        <div class="metric-tile" id="tile-violations" data-status="ok">
+          <span class="metric-label">Pelanggaran Tab</span>
+          <span class="metric-value" id="quiz-violations-text">0 / 2</span>
+          <span class="metric-caption" id="quiz-violations-caption">Toleransi aman</span>
+        </div>
+      </div>
+
+      <!-- Navigator & View Mode Toggle -->
+      <div class="quiz-toolbar">
+        <div class="q-pills" id="quiz-nav-pills" role="navigation" aria-label="Navigasi Nomor Soal"></div>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center;">
+          <button type="button" id="btn-toggle-viewmode" class="btn btn-ghost" onclick="toggleQuizDisplayMode()">
+            Tampilkan Semua Soal
+          </button>
+          <button type="button" id="btn-submit-quiz-top" class="btn btn-emerald" onclick="attemptSubmitQuiz(this)">
+            Kumpulkan Ulangan
+          </button>
+        </div>
+      </div>
+
+      <div id="quiz-submit-feedback" class="inline-feedback" role="status"></div>
+
+      <!-- Questions Container -->
+      <div id="questions-container" style="display: grid; gap: var(--space-lg);"></div>
+
+      <!-- Bottom Navigation -->
+      <div class="quiz-footer-nav" id="quiz-bottom-nav">
+        <button type="button" id="btn-prev-q" class="btn btn-secondary" onclick="navigateQuestion(-1)">
+          Sebelumnya
+        </button>
+        <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+          <button type="button" id="btn-next-q" class="btn btn-primary" onclick="navigateQuestion(1)">
+            Soal Berikutnya
+          </button>
+          <button type="button" id="btn-submit-quiz-bottom" class="btn btn-emerald" onclick="attemptSubmitQuiz(this)">
+            Kumpulkan Ulangan
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: HASIL & PEMBAHASAN -->
+    <section id="view-result" class="view-section" aria-label="Hasil Ulangan dan Pembahasan">
+      <div class="card">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-md);">
+          <div>
+            <span class="chip" id="result-status-chip" data-status="ok">Ulangan Selesai</span>
+            <h2 id="result-student-heading" style="font-family: var(--font-headline); margin: var(--space-xs) 0;">Hasil Ulangan Siswa</h2>
+            <p id="result-meta-line" style="color: var(--on-surface-variant); margin: 0;">—</p>
+          </div>
+          <button type="button" class="btn btn-ghost" onclick="returnToLogin()">
+            Kembali ke Halaman Awal
+          </button>
+        </div>
+
+        <div class="score-hero-grid" style="margin-top: var(--space-lg);">
+          <div class="metric-tile" id="result-score-tile">
+            <span class="metric-label">Nilai Akhir</span>
+            <span class="metric-value" id="result-score-val" style="font-size: 2.2rem;">0</span>
+            <span class="metric-caption" id="result-score-caption">Skala 0 – 100</span>
+          </div>
+          <div class="metric-tile" data-status="cyan">
+            <span class="metric-label">Skor Teori &amp; HOTS</span>
+            <span class="metric-value" id="result-breakdown-val">0 / 10</span>
+            <span class="metric-caption" id="result-breakdown-caption">—</span>
+          </div>
+          <div class="metric-tile" data-status="ok">
+            <span class="metric-label">Foto Langkah HOTS</span>
+            <span class="metric-value" id="result-photos-val">0 / 5</span>
+            <span class="metric-caption">Lampiran pengerjaan soal hitungan</span>
+          </div>
+          <div class="metric-tile" id="result-viol-tile" data-status="ok">
+            <span class="metric-label">Catatan Proctoring</span>
+            <span class="metric-value" id="result-viol-val">0 / 2</span>
+            <span class="metric-caption" id="result-viol-caption">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WhatsApp Group Card -->
+      <div class="status-card" data-status="ok">
+        <span class="chip" data-status="ok">Laporan Nilai ke WhatsApp Group</span>
+        <h3 style="font-family: var(--font-headline); margin: var(--space-sm) 0 var(--space-xs);">Kirim Nilai ke WA Group Kelas</h3>
+        <p style="color: var(--on-surface-variant); margin-top: 0;">Salin format pesan berikut lalu tempel langsung ke grup WhatsApp kelas atau guru pengampu:</p>
+        <div id="wa-student-preview" class="wa-preview-box"></div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-md);">
+          <button type="button" class="btn btn-emerald" onclick="copyStudentWaReport()">
+            Kirim Nilai ke WA Group (Salin Format WA)
+          </button>
+          <span id="wa-copy-status" class="form-hint" role="status"></span>
+        </div>
+      </div>
+
+      <!-- Pembahasan Terkunci -->
+      <div class="card" id="solutions-lock-card">
+        <span class="chip" data-status="warning">Terkunci Kode Akses Guru</span>
+        <h3 style="font-family: var(--font-headline); margin: var(--space-sm) 0 var(--space-xs);">Kunci Jawaban &amp; Pembahasan Lengkap (10 Soal)</h3>
+        <p style="color: var(--on-surface-variant); margin-top: 0;">Masukkan kode akses dari guru untuk membuka kunci jawaban serta langkah penyelesaian soal teori dan hitungan HOTS.</p>
+
+        <div id="solutions-unlock-form" style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; max-width: 520px;">
+          <div class="form-group" style="flex: 1 1 240px; margin-bottom: 0;">
+            <label class="form-label" for="input-solution-code">Kode Akses Pembahasan</label>
+            <input class="form-input" id="input-solution-code" type="password" placeholder="Masukkan kode akses…">
+          </div>
+          <button type="button" class="btn btn-primary" onclick="unlockSolutions()">
+            Buka Pembahasan
+          </button>
+        </div>
+        <div id="solution-code-feedback" class="inline-feedback" role="alert"></div>
+      </div>
+
+      <div id="solutions-container" style="display: none; gap: var(--space-md);"></div>
+    </section>
+
+    <footer class="footer-note">
+      Materi dirangkum dari kajian Medan Magnet Fisika SMA Kelas XII (Induksi Magnetik, Kaidah Tangan Kanan, Solenoida &amp; Toroida, serta Gaya Lorentz).
+    </footer>
+  </div>
+
+  <!-- MODAL PERINGATAN PROCTORING -->
+  <div id="modal-proctor-warning" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="proctor-modal-title">
+    <div class="modal-panel warning-panel">
+      <div class="modal-header">
+        <div>
+          <span class="chip" data-status="alert">Sistem Anti-Curang Aktif</span>
+          <h2 id="proctor-modal-title" style="font-family: var(--font-headline); margin: var(--space-xs) 0 0; color: var(--error);">Peringatan Keluar Tab!</h2>
+        </div>
+      </div>
+      <p id="proctor-modal-body" style="margin: 0; font-size: 1.05rem;">Anda terdeteksi meninggalkan tab atau jendela ujian.</p>
+      <div class="status-card" data-status="alert">
+        <strong id="proctor-modal-count">Pelanggaran: 1 dari maksimal 2 toleransi.</strong>
+        <p style="margin: var(--space-xs) 0 0; font-size: 0.9rem; color: var(--on-surface-variant);">Pada pelanggaran ke-3, sistem akan menghentikan ujian dan mengumpulkan jawaban Anda secara paksa.</p>
+      </div>
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="button" class="btn btn-danger" onclick="dismissProctorWarning()">
+          Saya Mengerti &amp; Kembali ke Kuis
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PANEL GURU -->
+  <div id="modal-teacher" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="teacher-modal-title">
+    <div class="modal-panel" id="teacher-modal-panel">
+      <div class="modal-header">
+        <div>
+          <span class="chip">Dashboard Guru</span>
+          <h2 id="teacher-modal-title" style="font-family: var(--font-headline); margin: var(--space-xs) 0 0;">Panel Guru &amp; Rekapitulasi Nilai</h2>
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="closeTeacherModal()">Tutup</button>
+      </div>
+
+      <!-- Teacher Auth Gate -->
+      <div id="teacher-auth-gate">
+        <p style="margin-top: 0; color: var(--on-surface-variant);">Masukkan kode akses guru untuk melihat tabel nilai seluruh siswa, pratinjau foto pengerjaan HOTS, ekspor CSV, dan kirim rekap WhatsApp.</p>
+        <form onsubmit="authenticateTeacher(event)" style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; max-width: 480px;">
+          <div class="form-group" style="flex: 1 1 240px; margin-bottom: 0;">
+            <label class="form-label" for="input-teacher-code">Kode Akses Guru</label>
+            <input class="form-input" id="input-teacher-code" type="password" placeholder="Masukkan kode akses…" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Masuk Panel Guru</button>
+        </form>
+        <div id="teacher-auth-feedback" class="inline-feedback" role="alert"></div>
+      </div>
+
+      <!-- Teacher Dashboard Content -->
+      <div id="teacher-dashboard-content" style="display: none; gap: var(--space-lg);">
+        <!-- Summary KPI -->
+        <div class="score-hero-grid">
+          <div class="metric-tile">
+            <span class="metric-label">Total Peserta</span>
+            <span class="metric-value" id="td-total-students">0</span>
+            <span class="metric-caption">Siswa yang telah mengumpulkan</span>
+          </div>
+          <div class="metric-tile" data-status="cyan">
+            <span class="metric-label">Rata-rata Kelas</span>
+            <span class="metric-value" id="td-avg-score">0</span>
+            <span class="metric-caption">Skala 0 – 100</span>
+          </div>
+          <div class="metric-tile" data-status="ok">
+            <span class="metric-label">Nilai Tertinggi</span>
+            <span class="metric-value" id="td-max-score">0</span>
+            <span class="metric-caption" id="td-max-student">—</span>
+          </div>
+          <div class="metric-tile" data-status="warning">
+            <span class="metric-label">Total Pelanggaran Tab</span>
+            <span class="metric-value" id="td-total-violations">0</span>
+            <span class="metric-caption">Akumulasi seluruh peserta</span>
+          </div>
+        </div>
+
+        <!-- Teacher Toolbar -->
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end; justify-content: space-between;">
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: end;">
+            <div class="form-group" style="margin-bottom: 0; min-width: 210px;">
+              <label class="form-label" for="td-filter-class">Filter Kelas / Pencarian</label>
+              <input class="form-input" id="td-filter-class" type="text" placeholder="Cari nama atau kelas…" oninput="renderTeacherTable()">
+            </div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+            <button type="button" class="btn btn-emerald" onclick="copyClassWaRecap()">
+              Kirim Rekap Kelas ke WA Group
+            </button>
+            <button type="button" class="btn btn-cyan" onclick="exportSubmissionsCsv()">
+              Ekspor CSV Nilai
+            </button>
+            <button type="button" id="btn-reset-all-data" class="btn btn-danger" onclick="resetAllSubmissions(this)">
+              Reset Data Siswa
+            </button>
+          </div>
+        </div>
+
+        <div id="td-action-feedback" class="inline-feedback" role="status"></div>
+
+        <!-- Table -->
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Siswa</th>
+                <th>Kelas</th>
+                <th>Nilai</th>
+                <th>Teori / HOTS</th>
+                <th>Waktu Selesai</th>
+                <th>Pelanggaran Tab</th>
+                <th>Foto Pengerjaan</th>
+                <th>Aksi WA</th>
+              </tr>
+            </thead>
+            <tbody id="td-table-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Class WA Preview -->
+        <div id="td-wa-preview-wrap" style="display: none;">
+          <span class="form-label">Pratinjau Pesan Rekap WA Group:</span>
+          <div id="td-wa-preview" class="wa-preview-box" style="margin-top: var(--space-xs);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PREVIEW FOTO PENGERJAAN SISWA -->
+  <div id="modal-photo-preview" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="photo-modal-title">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <span class="chip" data-status="cyan">Lampiran Soal Hitungan HOTS</span>
+          <h2 id="photo-modal-title" style="font-family: var(--font-headline); margin: var(--space-xs) 0 0;">Foto Jalan Pengerjaan Siswa</h2>
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="closePhotoModal()">Tutup</button>
+      </div>
+      <div id="photo-modal-content" class="gallery-grid"></div>
+    </div>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    // =========================================================================
+    // CONSTANTS & APPLICATION STATE
+    // =========================================================================
+    const ACCESS_CODE = `FISIKAXII3`;
+    const QUIZ_DURATION_SECONDS = 60 * 60; // 60 menit
+    const MAX_VIOLATION_TOLERANCE = 2;
+    const OPTION_LETTERS = [`A`, `B`, `C`, `D`, `E`];
+
+    // Persistent state (saved via notebookAppApi.setAppState)
+    let appState = {
+      submissions: []
+    };
+
+    // Ephemeral in-memory image blobs for active session preview (never sent to setAppState)
+    const sessionPhotoStore = {};
+
+    // Current active quiz session
+    let activeSession = {
+      isActive: false,
+      studentName: ``,
+      studentClass: ``,
+      studentKey: ``,
+      startTimeMs: 0,
+      remainingSeconds: QUIZ_DURATION_SECONDS,
+      timerIntervalId: null,
+      violations: 0,
+      lastViolationMs: 0,
+      isOpeningFilePicker: false,
+      questionsOrder: [], // array of { qId, shuffledOptions: [{ optId, text, isCorrect }] }
+      answers: {}, // qId -> optId
+      photos: {}, // qId -> { fileName, fileSize, uploadedAt }
+      displayMode: `single`, // 'single' | 'all'
+      currentIndex: 0
+    };
+
+    let currentViewedSubmission = null;
+    let teacherAuthenticated = false;
+    let solutionsUnlocked = false;
+    let audioCtx = null;
+
+    // =========================================================================
+    // 10 SOAL MEDAN MAGNET (5 TEORI BERDIAGRAM + 5 HITUNGAN HOTS)
+    // =========================================================================
+    const QUESTION_BANK = [
+      {
+        id: `q1`,
+        type: `teori`,
+        topic: `Kutub Magnet & Garis Gaya`,
+        difficulty: `Mudah`,
+        prompt: `Perhatikan diagram garis gaya magnet di sekitar magnet batang berikut. Pernyataan yang paling tepat mengenai sifat garis-garis gaya magnet tersebut adalah…`,
+        caption: `Diagram 1: Skema garis-garis gaya magnet di sekitar dan di dalam magnet batang (U – S).`,
+        svg: `<svg viewBox="0 0 520 230" role="img" aria-label="Diagram magnet batang Utara dan Selatan beserta garis gaya magnet">
+          <defs>
+            <marker id="arr-q1" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--primary)"/>
+            </marker>
+          </defs>
+          <!-- Field lines top -->
+          <path d="M 185 95 C 185 35, 335 35, 335 95" fill="none" stroke="var(--primary)" stroke-width="2.2" marker-mid="url(#arr-q1)"/>
+          <path d="M 256 50 L 266 50" stroke="var(--primary)" stroke-width="2.4" marker-end="url(#arr-q1)"/>
+          <path d="M 165 95 C 145 10, 375 10, 355 95" fill="none" stroke="var(--secondary)" stroke-width="1.8"/>
+          <path d="M 256 27 L 266 27" stroke="var(--secondary)" stroke-width="2" marker-end="url(#arr-q1)"/>
+          <!-- Field lines bottom -->
+          <path d="M 185 135 C 185 195, 335 195, 335 135" fill="none" stroke="var(--primary)" stroke-width="2.2"/>
+          <path d="M 256 180 L 266 180" stroke="var(--primary)" stroke-width="2.4" marker-end="url(#arr-q1)"/>
+          <path d="M 165 135 C 145 220, 375 220, 355 135" fill="none" stroke="var(--secondary)" stroke-width="1.8"/>
+          <path d="M 256 203 L 266 203" stroke="var(--secondary)" stroke-width="2" marker-end="url(#arr-q1)"/>
+          <!-- End plumes -->
+          <path d="M 140 115 L 60 115" fill="none" stroke="var(--primary)" stroke-width="2.2" marker-end="url(#arr-q1)"/>
+          <path d="M 460 115 L 385 115" fill="none" stroke="var(--primary)" stroke-width="2.2" marker-end="url(#arr-q1)"/>
+          <path d="M 140 103 Q 90 95, 58 70" fill="none" stroke="var(--secondary)" stroke-width="1.7" marker-end="url(#arr-q1)"/>
+          <path d="M 140 127 Q 90 135, 58 160" fill="none" stroke="var(--secondary)" stroke-width="1.7" marker-end="url(#arr-q1)"/>
+          <path d="M 462 70 Q 430 95, 384 103" fill="none" stroke="var(--secondary)" stroke-width="1.7" marker-end="url(#arr-q1)"/>
+          <path d="M 462 160 Q 430 135, 384 127" fill="none" stroke="var(--secondary)" stroke-width="1.7" marker-end="url(#arr-q1)"/>
+          <!-- Bar Magnet -->
+          <rect x="140" y="95" width="120" height="40" rx="4" fill="var(--error-bright)" stroke="var(--on-surface)" stroke-width="1.5"/>
+          <rect x="260" y="95" width="120" height="40" rx="4" fill="var(--primary)" stroke="var(--on-surface)" stroke-width="1.5"/>
+          <text x="200" y="121" text-anchor="middle" fill="var(--on-primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="20">U</text>
+          <text x="320" y="121" text-anchor="middle" fill="var(--on-primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="20">S</text>
+          <!-- Internal return dashed -->
+          <line x1="300" y1="115" x2="220" y2="115" stroke="var(--on-primary)" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#arr-q1)"/>
+          <text x="260" y="149" text-anchor="middle" fill="var(--on-surface-variant)" font-family="Figtree, sans-serif" font-size="11" font-weight="600">Di dalam magnet: S → U</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `Di luar magnet, garis gaya magnet keluar dari kutub Utara menuju kutub Selatan, dan kerapatannya menunjukkan kuat medan magnet.`, isCorrect: true },
+          { id: `o2`, text: `Di luar magnet, garis gaya magnet keluar dari kutub Selatan menuju kutub Utara serta saling berpotongan di bagian tengah.`, isCorrect: false },
+          { id: `o3`, text: `Garis gaya magnet berhenti tepat di permukaan kutub Selatan tanpa pernah menembus bagian dalam magnet batang.`, isCorrect: false },
+          { id: `o4`, text: `Medan magnet paling lemah berada tepat di ujung kedua kutub karena garis-garis gayanya sejajar dan saling meniadakan.`, isCorrect: false },
+          { id: `o5`, text: `Kutub Utara dan Kutub Selatan dapat dipisahkan menjadi magnet berkutub tunggal apabila magnet dipotong di tengah.`, isCorrect: false }
+        ],
+        explanation: `Garis gaya magnet membentuk lintasan tertutup: di luar magnet selalu keluar dari Kutub Utara (U) menuju Kutub Selatan (S), sedangkan di dalam magnet mengarah dari S ke U. Garis gaya tidak pernah berpotongan, dan semakin rapat garis gayanya semakin kuat medan magnetnya (paling kuat di daerah kutub).`
+      },
+      {
+        id: `q2`,
+        type: `teori`,
+        topic: `Kemagnetan Bumi & Kompas`,
+        difficulty: `Mudah`,
+        prompt: `Jarum kompas yang diletakkan bebas di permukaan Bumi pada umumnya tidak menunjuk tepat ke arah Utara Geografis dan tidak selalu mendatar sempurna. Berdasarkan skema kemagnetan Bumi pada diagram, penjelasan yang paling tepat adalah…`,
+        caption: `Diagram 2: Sumbu geografis vs sumbu magnet Bumi serta sudut deklinasi dan inklinasi kompas.`,
+        svg: `<svg viewBox="0 0 520 245" role="img" aria-label="Diagram kemagnetan Bumi, sudut deklinasi dan sudut inklinasi kompas">
+          <defs>
+            <marker id="arr-q2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--secondary)"/>
+            </marker>
+          </defs>
+          <!-- Earth Globe -->
+          <circle cx="155" cy="125" r="78" fill="var(--surface-cyan-wash)" stroke="var(--secondary)" stroke-width="2"/>
+          <!-- Geographic Axis -->
+          <line x1="155" y1="22" x2="155" y2="228" stroke="var(--on-surface)" stroke-width="1.6" stroke-dasharray="5 4"/>
+          <text x="155" y="16" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-size="11" font-weight="700">Utara Geografis</text>
+          <text x="155" y="241" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-size="11" font-weight="700">Selatan Geografis</text>
+          <!-- Magnetic Axis tilted -->
+          <g transform="rotate(-14 155 125)">
+            <rect x="143" y="65" width="24" height="60" fill="var(--primary)" opacity="0.88"/>
+            <rect x="143" y="125" width="24" height="60" fill="var(--error-bright)" opacity="0.88"/>
+            <text x="155" y="92" text-anchor="middle" fill="var(--on-primary)" font-family="Figtree, sans-serif" font-size="12" font-weight="800">S</text>
+            <text x="155" y="165" text-anchor="middle" fill="var(--on-primary)" font-family="Figtree, sans-serif" font-size="12" font-weight="800">U</text>
+            <!-- Field arcs -->
+            <path d="M 155 185 C 245 205, 245 45, 155 65" fill="none" stroke="var(--secondary)" stroke-width="1.6" marker-mid="url(#arr-q2)"/>
+            <path d="M 155 185 C 65 205, 65 45, 155 65" fill="none" stroke="var(--secondary)" stroke-width="1.6" marker-mid="url(#arr-q2)"/>
+          </g>
+          <text x="72" y="42" fill="var(--primary)" font-family="Figtree, sans-serif" font-size="11" font-weight="700">S Magnet Bumi</text>
+          <!-- Compass inset on right -->
+          <rect x="285" y="25" width="215" height="195" rx="12" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+          <text x="392" y="46" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-size="12" font-weight="700">Penyimpangan Jarum Kompas</text>
+          <!-- Horizontal reference -->
+          <line x1="308" y1="125" x2="478" y2="125" stroke="var(--outline)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <text x="476" y="118" text-anchor="end" fill="var(--on-surface-variant)" font-family="Figtree, sans-serif" font-size="10">Bidang Datar</text>
+          <!-- Tilted needle (inclination) -->
+          <g transform="translate(392, 125) rotate(-25)">
+            <polygon points="-50,0 0,-7 0,7" fill="var(--primary)"/>
+            <polygon points="50,0 0,-7 0,7" fill="var(--error-bright)"/>
+            <circle cx="0" cy="0" r="4" fill="var(--on-surface)"/>
+            <text x="54" y="4" fill="var(--error)" font-family="Figtree, sans-serif" font-size="11" font-weight="700">U</text>
+          </g>
+          <path d="M 432 125 A 40 40 0 0 0 428 108" fill="none" stroke="var(--warning)" stroke-width="2"/>
+          <text x="444" y="102" fill="var(--warning)" font-family="Figtree, sans-serif" font-size="10.5" font-weight="700">Inklinasi (vertikal)</text>
+          <text x="392" y="180" text-anchor="middle" fill="var(--primary)" font-family="Figtree, sans-serif" font-size="11" font-weight="700">Deklinasi: penyimpangan horizontal</text>
+          <text x="392" y="196" text-anchor="middle" fill="var(--on-surface-variant)" font-family="Figtree, sans-serif" font-size="10.5">terhadap Utara–Selatan Geografis</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `Kutub Utara jarum kompas ditarik oleh Kutub Selatan magnet Bumi yang letaknya tidak berimpit dengan Utara Geografis sehingga muncul sudut deklinasi dan inklinasi.`, isCorrect: true },
+          { id: `o2`, text: `Kutub Utara jarum kompas ditarik oleh Kutub Utara magnet Bumi yang berada tepat di Kutub Utara Geografis.`, isCorrect: false },
+          { id: `o3`, text: `Sudut deklinasi adalah penyimpangan jarum terhadap bidang horizontal, sedangkan inklinasi adalah penyimpangan terhadap arah Utara Geografis.`, isCorrect: false },
+          { id: `o4`, text: `Jarum kompas selalu sejajar bidang datar di seluruh belahan Bumi karena medan magnet Bumi seragam sejajar permukaan.`, isCorrect: false },
+          { id: `o5`, text: `Di daerah khatulistiwa magnetik, sudut inklinasi bernilai 90° karena garis gaya magnet Bumi tegak lurus permukaan tanah.`, isCorrect: false }
+        ],
+        explanation: `Kutub Utara jarum kompas ditarik menuju Kutub Selatan magnet Bumi yang berada di dekat Utara Geografis (namun tidak tepat berimpit). Ketidakberimpitan sumbu magnet dan sumbu geografis menimbulkan sudut deklinasi (penyimpangan horizontal), sedangkan sudut antara garis gaya magnet Bumi dan bidang datar horizontal disebut sudut inklinasi (penyimpangan vertikal).`
+      },
+      {
+        id: `q3`,
+        type: `teori`,
+        topic: `Notasi Vektor Dot (⊙) & Cross (⊗)`,
+        difficulty: `Mudah`,
+        prompt: `Dalam analisis medan magnet dan gaya Lorentz tiga dimensi pada bidang kertas/layar, digunakan simbol notasi ⊙ (dot) dan ⊗ (cross) seperti ilustrasi. Arti fisis yang benar dari kedua simbol vektor tersebut adalah…`,
+        caption: `Diagram 3: Perjanjian notasi vektor arah tegak lurus bidang kertas/layar.`,
+        svg: `<svg viewBox="0 0 520 225" role="img" aria-label="Diagram simbol vektor dot keluar bidang dan cross masuk bidang">
+          <defs>
+            <marker id="arr-q3c" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--secondary)"/>
+            </marker>
+            <marker id="arr-q3r" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--error-bright)"/>
+            </marker>
+          </defs>
+          <!-- Left card: DOT -->
+          <rect x="18" y="16" width="232" height="192" rx="12" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+          <polygon points="65,138 185,138 215,92 95,92" fill="var(--surface-cyan-wash)" stroke="var(--secondary)" stroke-width="1.6"/>
+          <circle cx="140" cy="115" r="4" fill="var(--secondary)"/>
+          <line x1="140" y1="115" x2="108" y2="54" stroke="var(--secondary)" stroke-width="3.5" marker-end="url(#arr-q3c)"/>
+          <circle cx="195" cy="52" r="18" fill="var(--surface-cyan-wash)" stroke="var(--secondary)" stroke-width="2.5"/>
+          <circle cx="195" cy="52" r="5" fill="var(--secondary)"/>
+          <text x="134" y="166" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">Simbol ⊙ (Dot)</text>
+          <text x="134" y="185" text-anchor="middle" fill="var(--on-surface-variant)" font-family="Figtree, sans-serif" font-size="11.5">Ujung panah menuju pengamat</text>
+
+          <!-- Right card: CROSS -->
+          <rect x="270" y="16" width="232" height="192" rx="12" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+          <polygon points="317,138 437,138 467,92 347,92" fill="var(--surface-rose-wash)" stroke="var(--error-bright)" stroke-width="1.6"/>
+          <line x1="362" y1="54" x2="392" y2="112" stroke="var(--error-bright)" stroke-width="3.5" marker-end="url(#arr-q3r)"/>
+          <line x1="392" y1="115" x2="408" y2="146" stroke="var(--error-bright)" stroke-width="2.2" stroke-dasharray="3 3"/>
+          <circle cx="448" cy="52" r="18" fill="var(--surface-rose-wash)" stroke="var(--error-bright)" stroke-width="2.5"/>
+          <line x1="438" y1="42" x2="458" y2="62" stroke="var(--error-bright)" stroke-width="2.8"/>
+          <line x1="458" y1="42" x2="438" y2="62" stroke="var(--error-bright)" stroke-width="2.8"/>
+          <text x="386" y="166" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">Simbol ⊗ (Cross)</text>
+          <text x="386" y="185" text-anchor="middle" fill="var(--on-surface-variant)" font-family="Figtree, sans-serif" font-size="11.5">Ekor panah menjauhi pengamat</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `Simbol ⊙ menyatakan arah vektor tegak lurus keluar bidang gambar (menuju pengamat), sedangkan ⊗ menyatakan arah vektor tegak lurus masuk bidang gambar (menjauhi pengamat).`, isCorrect: true },
+          { id: `o2`, text: `Simbol ⊙ menyatakan arah vektor tegak lurus masuk bidang gambar, sedangkan ⊗ menyatakan arah vektor tegak lurus keluar bidang gambar.`, isCorrect: false },
+          { id: `o3`, text: `Simbol ⊙ menyatakan besar induksi magnetik bernilai nol, sedangkan ⊗ menyatakan titik perpotongan dua kawat berarus.`, isCorrect: false },
+          { id: `o4`, text: `Simbol ⊙ menyatakan arah putaran arus searah jarum jam, sedangkan ⊗ menyatakan arus berlawanan arah jarum jam.`, isCorrect: false },
+          { id: `o5`, text: `Simbol ⊙ khusus digunakan untuk arah muatan positif, sedangkan ⊗ khusus untuk arah muatan negatif tanpa bergantung arah gerak.`, isCorrect: false }
+        ],
+        explanation: `Perjanjian notasi anak panah 3D: ketika anak panah melesat tegak lurus keluar bidang layar menuju mata pengamat, yang terlihat adalah titik ujungnya (⊙ / dot). Sebaliknya, ketika anak panah melesat masuk menjauhi pengamat, yang terlihat adalah silang sirip ekornya (⊗ / cross).`
+      },
+      {
+        id: `q4`,
+        type: `teori`,
+        topic: `Kaidah Tangan Kanan Kawat Lurus`,
+        difficulty: `Mudah`,
+        prompt: `Sebuah kawat lurus panjang vertikal dialiri arus listrik I ke arah atas seperti pada diagram. Dengan menerapkan kaidah tangan kanan, arah medan magnet B di titik P (sebelah kiri kawat) dan titik Q (sebelah kanan kawat) berturut-turut adalah…`,
+        caption: `Diagram 4: Kaidah tangan kanan (ibu jari = arah arus I ke atas, genggaman 4 jari = arah medan magnet B).`,
+        svg: `<svg viewBox="0 0 520 240" role="img" aria-label="Diagram kaidah tangan kanan pada kawat lurus berarus ke atas dengan titik P di kiri dan titik Q di kanan">
+          <defs>
+            <marker id="arr-q4i" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--warning)"/>
+            </marker>
+            <marker id="arr-q4b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--primary)"/>
+            </marker>
+          </defs>
+          <!-- Magnetic field loop back half (dashed) -->
+          <path d="M 155 128 A 105 32 0 0 1 365 128" fill="none" stroke="var(--primary)" stroke-width="2.2" stroke-dasharray="5 4"/>
+          <!-- Vertical Wire -->
+          <line x1="260" y1="215" x2="260" y2="30" stroke="var(--on-surface)" stroke-width="6" stroke-linecap="round"/>
+          <!-- Current Arrow -->
+          <line x1="278" y1="88" x2="278" y2="36" stroke="var(--warning)" stroke-width="3.5" marker-end="url(#arr-q4i)"/>
+          <text x="292" y="58" fill="var(--warning)" font-family="Figtree, sans-serif" font-weight="800" font-size="16">I (ke atas)</text>
+          <!-- Right hand schematic grip -->
+          <rect x="242" y="108" width="36" height="44" rx="10" fill="var(--surface-amber-wash)" stroke="var(--warning)" stroke-width="2"/>
+          <path d="M 244 120 L 276 120 M 244 131 L 276 131 M 244 142 L 276 142" stroke="var(--warning)" stroke-width="1.6"/>
+          <path d="M 248 108 L 248 82 C 248 75, 258 75, 258 82 L 258 108" fill="var(--surface-amber-wash)" stroke="var(--warning)" stroke-width="2"/>
+          <text x="260" y="168" text-anchor="middle" fill="var(--on-surface-variant)" font-family="Figtree, sans-serif" font-size="11" font-weight="700">Ibu jari = I | 4 Jari = B</text>
+          <!-- Magnetic field loop front half (solid, left to right) -->
+          <path d="M 155 128 A 105 32 0 0 0 365 128" fill="none" stroke="var(--primary)" stroke-width="2.8"/>
+          <line x1="245" y1="160" x2="274" y2="160" stroke="var(--primary)" stroke-width="2.8" marker-end="url(#arr-q4b)"/>
+          <!-- Point P (left) -->
+          <circle cx="115" cy="128" r="14" fill="var(--surface-cyan-wash)" stroke="var(--secondary)" stroke-width="2.2"/>
+          <text x="115" y="133" text-anchor="middle" fill="var(--secondary)" font-family="Figtree, sans-serif" font-weight="800" font-size="16">?</text>
+          <text x="115" y="160" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">Titik P (Kiri)</text>
+          <!-- Point Q (right) -->
+          <circle cx="405" cy="128" r="14" fill="var(--surface-rose-wash)" stroke="var(--error-bright)" stroke-width="2.2"/>
+          <text x="405" y="133" text-anchor="middle" fill="var(--error)" font-family="Figtree, sans-serif" font-weight="800" font-size="16">?</text>
+          <text x="405" y="160" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">Titik Q (Kanan)</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `Titik P keluar bidang gambar (⊙) dan titik Q masuk bidang gambar (⊗).`, isCorrect: true },
+          { id: `o2`, text: `Titik P masuk bidang gambar (⊗) dan titik Q keluar bidang gambar (⊙).`, isCorrect: false },
+          { id: `o3`, text: `Titik P dan titik Q sama-sama keluar bidang gambar (⊙).`, isCorrect: false },
+          { id: `o4`, text: `Titik P mengarah ke kiri menjauhi kawat dan titik Q mengarah ke kanan menjauhi kawat.`, isCorrect: false },
+          { id: `o5`, text: `Titik P dan titik Q sama-sama masuk bidang gambar (⊗).`, isCorrect: false }
+        ],
+        explanation: `Arahkan ibu jari tangan kanan ke atas mengikuti arus I. Keempat jari menggenggam kawat: di sebelah kanan kawat (titik Q) ujung jari menusuk masuk bidang gambar (⊗), lalu memutar di belakang dan muncul keluar bidang gambar (⊙) di sebelah kiri kawat (titik P).`
+      },
+      {
+        id: `q5`,
+        type: `teori`,
+        topic: `Solenoida & Toroida`,
+        difficulty: `Mudah`,
+        prompt: `Perhatikan diagram solenoida dengan arah arus listrik I pada sisi depan lilitan mengarah ke atas (garis penuh) dan skema cincin toroida di sebelahnya. Berdasarkan kaidah tangan kanan kumparan, kesimpulan yang benar adalah…`,
+        caption: `Diagram 5: Kumparan solenoida berarus (sisi depan berarus naik) dan penampang toroida.`,
+        svg: `<svg viewBox="0 0 520 235" role="img" aria-label="Diagram solenoida dengan arus naik di sisi depan dan skema toroida">
+          <defs>
+            <marker id="arr-q5i" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--warning)"/>
+            </marker>
+            <marker id="arr-q5b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--primary)"/>
+            </marker>
+          </defs>
+          <!-- Solenoid section -->
+          <text x="165" y="24" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">SOLENOIDA</text>
+          <!-- Cylinder core -->
+          <rect x="65" y="72" width="200" height="80" rx="8" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+          <!-- Back turns (dashed) -->
+          <path d="M 95 66 C 110 66, 110 158, 122 158" fill="none" stroke="var(--outline)" stroke-width="2" stroke-dasharray="4 3"/>
+          <path d="M 135 66 C 150 66, 150 158, 162 158" fill="none" stroke="var(--outline)" stroke-width="2" stroke-dasharray="4 3"/>
+          <path d="M 175 66 C 190 66, 190 158, 202 158" fill="none" stroke="var(--outline)" stroke-width="2" stroke-dasharray="4 3"/>
+          <path d="M 215 66 C 230 66, 230 158, 242 158" fill="none" stroke="var(--outline)" stroke-width="2" stroke-dasharray="4 3"/>
+          <!-- Internal B field line (pointing left to X) -->
+          <line x1="250" y1="112" x2="78" y2="112" stroke="var(--primary)" stroke-width="2.6" marker-end="url(#arr-q5b)"/>
+          <text x="165" y="102" text-anchor="middle" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="700" font-size="12">B dalam kumparan</text>
+          <!-- Front turns (solid, upward current) -->
+          <path d="M 82 158 C 82 125, 92 92, 95 66" fill="none" stroke="var(--warning)" stroke-width="3.2" marker-mid="url(#arr-q5i)"/>
+          <path d="M 122 158 C 122 125, 132 92, 135 66" fill="none" stroke="var(--warning)" stroke-width="3.2" marker-mid="url(#arr-q5i)"/>
+          <path d="M 162 158 C 162 125, 172 92, 175 66" fill="none" stroke="var(--warning)" stroke-width="3.2" marker-mid="url(#arr-q5i)"/>
+          <path d="M 202 158 C 202 125, 212 92, 215 66" fill="none" stroke="var(--warning)" stroke-width="3.2" marker-mid="url(#arr-q5i)"/>
+          <path d="M 242 158 C 242 125, 252 92, 255 66" fill="none" stroke="var(--warning)" stroke-width="3.2" marker-mid="url(#arr-q5i)"/>
+          <!-- Labels X and Y -->
+          <circle cx="42" cy="112" r="15" fill="var(--primary-container)" stroke="var(--primary)" stroke-width="2"/>
+          <text x="42" y="117" text-anchor="middle" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">X</text>
+          <circle cx="288" cy="112" r="15" fill="var(--primary-container)" stroke="var(--primary)" stroke-width="2"/>
+          <text x="288" y="117" text-anchor="middle" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">Y</text>
+          <text x="165" y="186" text-anchor="middle" fill="var(--warning)" font-family="Figtree, sans-serif" font-weight="700" font-size="11.5">Arus I sisi depan mengarah ke ATAS</text>
+
+          <!-- Divider -->
+          <line x1="322" y1="22" x2="322" y2="210" stroke="var(--outline-variant)" stroke-width="1.5"/>
+
+          <!-- Toroida section -->
+          <text x="420" y="24" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">TOROIDA</text>
+          <circle cx="420" cy="115" r="64" fill="none" stroke="var(--surface-container-high)" stroke-width="28"/>
+          <circle cx="420" cy="115" r="78" fill="none" stroke="var(--outline)" stroke-width="1.5"/>
+          <circle cx="420" cy="115" r="50" fill="none" stroke="var(--outline)" stroke-width="1.5"/>
+          <circle cx="420" cy="115" r="64" fill="none" stroke="var(--secondary)" stroke-width="2.4" stroke-dasharray="8 5"/>
+          <path d="M 420 51 L 430 51" stroke="var(--secondary)" stroke-width="2.5" marker-end="url(#arr-q5b)"/>
+          <text x="420" y="119" text-anchor="middle" fill="var(--secondary)" font-family="Figtree, sans-serif" font-weight="700" font-size="11">B melingkar</text>
+          <text x="420" y="205" text-anchor="middle" fill="var(--on-surface-variant)" font-family="Figtree, sans-serif" font-size="11">Medan di dalam teras</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `Ujung X menjadi kutub Utara magnet, ujung Y menjadi kutub Selatan, dan medan magnet toroida terkurung melingkar di dalam terasnya.`, isCorrect: true },
+          { id: `o2`, text: `Ujung X menjadi kutub Selatan magnet, ujung Y menjadi kutub Utara, dan medan magnet toroida menyebar jauh ke luar cincin.`, isCorrect: false },
+          { id: `o3`, text: `Baik ujung X maupun ujung Y menjadi kutub Utara karena seluruh lilitan depan berarus sama ke atas.`, isCorrect: false },
+          { id: `o4`, text: `Induksi magnetik di ujung solenoida dua kali lebih besar daripada di pusatnya, sedangkan di dalam teras toroida bernilai nol.`, isCorrect: false },
+          { id: `o5`, text: `Ujung X menjadi kutub Utara dan Y kutub Selatan, namun arah medan magnet di dalam solenoida mengalir dari X menuju Y.`, isCorrect: false }
+        ],
+        explanation: `Lipatkan keempat jari tangan kanan mengikuti arah arus pada lilitan (naik di sisi depan, turun di sisi belakang), maka ibu jari menunjuk ke kiri (ujung X). Ibu jari menunjukkan arah Kutub Utara (U), sehingga X = Kutub Utara dan Y = Kutub Selatan (arah B di dalam kumparan dari Y menuju X). Pada toroida, garis medan magnet membentuk lingkaran tertutup di sepanjang sumbu terasnya.`
+      },
+      {
+        id: `q6`,
+        type: `hitungan`,
+        topic: `Gabungan Kawat Lurus & 1/4 Melingkar`,
+        difficulty: `HOTS`,
+        prompt: `Sebuah kawat lurus panjang vertikal berarus I₁ = 4 A ke atas berada di sebelah kiri titik P pada jarak a₁ = 2 cm. Di sebelah kanan-atas titik P terdapat kawat seperempat (1/4) lingkaran berpusat di P dengan jari-jari a₂ = 2 cm yang dialiri arus I₂ = 4 A searah jarum jam. Besar dan arah induksi magnetik total di pusat P adalah… (μ₀ = 4π × 10⁻⁷ T·m/A)`,
+        caption: `Diagram 6: Kombinasi kawat lurus panjang (I₁ = 4 A) dan busur 1/4 lingkaran (I₂ = 4 A) terhadap pusat P.`,
+        svg: `<svg viewBox="0 0 520 240" role="img" aria-label="Diagram gabungan kawat lurus panjang dan kawat seperempat lingkaran berpusat di P">
+          <defs>
+            <marker id="arr-q6i" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--primary)"/>
+            </marker>
+            <marker id="arr-q6c" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--secondary)"/>
+            </marker>
+          </defs>
+          <!-- Long straight wire -->
+          <line x1="115" y1="220" x2="115" y2="25" stroke="var(--primary)" stroke-width="4"/>
+          <line x1="115" y1="120" x2="115" y2="55" stroke="var(--primary)" stroke-width="3.5" marker-end="url(#arr-q6i)"/>
+          <text x="100" y="75" text-anchor="end" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">I₁ = 4 A</text>
+          <!-- Distance a1 -->
+          <line x1="115" y1="165" x2="235" y2="165" stroke="var(--outline)" stroke-width="1.6" stroke-dasharray="4 3"/>
+          <text x="175" y="183" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="700" font-size="12.5">a₁ = 2 cm</text>
+          <!-- Center P -->
+          <circle cx="240" cy="165" r="5" fill="var(--error-bright)"/>
+          <text x="234" y="190" text-anchor="middle" fill="var(--error)" font-family="Figtree, sans-serif" font-weight="800" font-size="15">P</text>
+          <!-- 1/4 Circle Arc centered at P(240,165), R=105 -->
+          <line x1="240" y1="165" x2="240" y2="60" stroke="var(--outline)" stroke-width="1.4" stroke-dasharray="4 3"/>
+          <line x1="240" y1="165" x2="345" y2="165" stroke="var(--outline)" stroke-width="1.4" stroke-dasharray="4 3"/>
+          <rect x="240" y="151" width="14" height="14" fill="none" stroke="var(--outline)" stroke-width="1.4"/>
+          <path d="M 240 60 A 105 105 0 0 1 345 165" fill="none" stroke="var(--secondary)" stroke-width="4.5" marker-mid="url(#arr-q6c)"/>
+          <!-- Arrow on arc -->
+          <path d="M 305 83 L 315 92" stroke="var(--secondary)" stroke-width="3.2" marker-end="url(#arr-q6c)"/>
+          <text x="332" y="76" fill="var(--secondary)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">I₂ = 4 A (searah jarum jam)</text>
+          <text x="300" y="155" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="700" font-size="12.5">a₂ = 2 cm</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `(4 + π) × 10⁻⁵ T dengan arah masuk bidang gambar (⊗)`, isCorrect: true },
+          { id: `o2`, text: `(4 + π) × 10⁻⁵ T dengan arah keluar bidang gambar (⊙)`, isCorrect: false },
+          { id: `o3`, text: `(4 − π) × 10⁻⁵ T dengan arah masuk bidang gambar (⊗)`, isCorrect: false },
+          { id: `o4`, text: `(4 + 4π) × 10⁻⁵ T dengan arah masuk bidang gambar (⊗)`, isCorrect: false },
+          { id: `o5`, text: `(2 + π) × 10⁻⁵ T dengan arah keluar bidang gambar (⊙)`, isCorrect: false }
+        ],
+        explanation: `1) Medan dari kawat lurus: B₁ = μ₀I₁ / (2πa₁) = (4π×10⁻⁷ × 4) / (2π × 0,02) = 4 × 10⁻⁵ T. Karena I₁ ke atas dan P di sebelah kanan kawat, kaidah tangan kanan memberi arah B₁ masuk bidang (⊗).
+2) Medan dari kawat 1/4 lingkaran: B₂ = (1/4) × [μ₀I₂ / (2a₂)] = (1/4) × [(4π×10⁻⁷ × 4) / (2 × 0,02)] = π × 10⁻⁵ T. Karena I₂ searah jarum jam, kaidah tangan kanan memberi arah B₂ juga masuk bidang (⊗).
+3) Karena B₁ dan B₂ searah (sama-sama ⊗), B_total = B₁ + B₂ = (4 + π) × 10⁻⁵ T (≈ 7,14 × 10⁻⁵ T) masuk bidang gambar (⊗).`
+      },
+      {
+        id: `q7`,
+        type: `hitungan`,
+        topic: `Gaya Magnet 3 Kawat Sejajar`,
+        difficulty: `HOTS`,
+        prompt: `Tiga kawat lurus panjang diletakkan sejajar pada satu bidang seperti diagram: Kawat 1 (I₁ = 2 A ke BAWAH), Kawat 2 (I₂ = 3 A ke ATAS), dan Kawat 3 (I₃ = 6 A ke BAWAH). Jarak antar kawat d₁₂ = 4 cm dan d₂₃ = 6 cm. Besar dan arah gaya magnet per satuan panjang yang bekerja pada Kawat 2 (kawat tengah) adalah…`,
+        caption: `Diagram 7: Tiga kawat sejajar berarus (Kawat 1 & 3 ke bawah, Kawat 2 ke atas).`,
+        svg: `<svg viewBox="0 0 520 240" role="img" aria-label="Diagram tiga kawat sejajar berarus dengan kawat 1 dan 3 ke bawah dan kawat 2 ke atas">
+          <defs>
+            <marker id="arr-q7d" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--error-bright)"/>
+            </marker>
+            <marker id="arr-q7u" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--tertiary)"/>
+            </marker>
+          </defs>
+          <!-- Wire 1 -->
+          <line x1="120" y1="30" x2="120" y2="185" stroke="var(--on-surface)" stroke-width="4"/>
+          <line x1="103" y1="65" x2="103" y2="135" stroke="var(--error-bright)" stroke-width="3" marker-end="url(#arr-q7d)"/>
+          <text x="120" y="20" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">Kawat 1</text>
+          <text x="94" y="105" text-anchor="end" fill="var(--error)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">I₁ = 2 A</text>
+          <!-- Wire 2 -->
+          <line x1="250" y1="30" x2="250" y2="185" stroke="var(--primary)" stroke-width="4.5"/>
+          <line x1="267" y1="135" x2="267" y2="65" stroke="var(--tertiary)" stroke-width="3" marker-end="url(#arr-q7u)"/>
+          <text x="250" y="20" text-anchor="middle" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">Kawat 2</text>
+          <text x="276" y="105" fill="var(--tertiary)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">I₂ = 3 A</text>
+          <!-- Wire 3 -->
+          <line x1="405" y1="30" x2="405" y2="185" stroke="var(--on-surface)" stroke-width="4"/>
+          <line x1="422" y1="65" x2="422" y2="135" stroke="var(--error-bright)" stroke-width="3" marker-end="url(#arr-q7d)"/>
+          <text x="405" y="20" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">Kawat 3</text>
+          <text x="431" y="105" fill="var(--error)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">I₃ = 6 A</text>
+          <!-- Distances -->
+          <line x1="120" y1="205" x2="250" y2="205" stroke="var(--outline)" stroke-width="1.8"/>
+          <text x="185" y="224" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="700" font-size="12.5">d₁₂ = 4 cm</text>
+          <line x1="250" y1="205" x2="405" y2="205" stroke="var(--outline)" stroke-width="1.8"/>
+          <text x="327" y="224" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="700" font-size="12.5">d₂₃ = 6 cm</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `3,0 × 10⁻⁵ N/m ke arah kiri (menuju Kawat 1)`, isCorrect: true },
+          { id: `o2`, text: `3,0 × 10⁻⁵ N/m ke arah kanan (menuju Kawat 3)`, isCorrect: false },
+          { id: `o3`, text: `9,0 × 10⁻⁵ N/m ke arah kiri (menuju Kawat 1)`, isCorrect: false },
+          { id: `o4`, text: `9,0 × 10⁻⁵ N/m ke arah kanan (menuju Kawat 3)`, isCorrect: false },
+          { id: `o5`, text: `1,5 × 10⁻⁵ N/m ke arah kiri (menuju Kawat 1)`, isCorrect: false }
+        ],
+        explanation: `1) Kawat 1 (bawah) dan Kawat 2 (atas) berarus berlawanan arah → tolak-menolak, sehingga F₂₁ mendorong Kawat 2 ke KANAN.
+   F₂₁/L = (μ₀ I₁ I₂) / (2π d₁₂) = (4π×10⁻⁷ × 2 × 3) / (2π × 0,04) = 3,0 × 10⁻⁵ N/m (ke kanan).
+2) Kawat 3 (bawah) dan Kawat 2 (atas) berarus berlawanan arah → tolak-menolak, sehingga F₂₃ mendorong Kawat 2 ke KIRI.
+   F₂₃/L = (μ₀ I₂ I₃) / (2π d₂₃) = (4π×10⁻⁷ × 3 × 6) / (2π × 0,06) = 6,0 × 10⁻⁵ N/m (ke kiri).
+3) Resultan gaya pada Kawat 2: (F/L)_total = 6,0×10⁻⁵ − 3,0×10⁻⁵ = 3,0 × 10⁻⁵ N/m ke arah KIRI (menuju Kawat 1).`
+      },
+      {
+        id: `q8`,
+        type: `hitungan`,
+        topic: `Perbandingan Solenoida vs Toroida`,
+        difficulty: `HOTS`,
+        prompt: `Sebuah solenoida panjang L = 20 cm memiliki Nₛ = 400 lilitan dan dialiri arus Iₛ = 2 A. Di tempat terpisah, sebuah toroida dengan jari-jari efektif r = 10 cm memiliki Nₜ = 600 lilitan dan dialiri arus Iₜ = 3 A. Perbandingan induksi magnetik di pusat solenoida terhadap induksi magnetik di sumbu efektif toroida (B_solenoida : B_toroida) adalah…`,
+        caption: `Diagram 8: Parameter perbandingan Solenoida (pusat) dan Toroida (sumbu efektif).`,
+        svg: `<svg viewBox="0 0 520 220" role="img" aria-label="Diagram perbandingan ukuran dan lilitan solenoida terhadap toroida">
+          <!-- Solenoid box -->
+          <rect x="18" y="18" width="232" height="184" rx="12" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+          <text x="134" y="42" text-anchor="middle" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">SOLENOIDA (Pusat)</text>
+          <rect x="52" y="72" width="164" height="44" rx="6" fill="var(--primary-container)" stroke="var(--primary)" stroke-width="2"/>
+          <path d="M 70 68 L 70 120 M 90 68 L 90 120 M 110 68 L 110 120 M 130 68 L 130 120 M 150 68 L 150 120 M 170 68 L 170 120 M 190 68 L 190 120" stroke="var(--primary)" stroke-width="2.2"/>
+          <text x="134" y="146" text-anchor="middle" fill="var(--on-surface)" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12">L = 20 cm | Nₛ = 400</text>
+          <text x="134" y="168" text-anchor="middle" fill="var(--secondary)" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12">Iₛ = 2 A</text>
+
+          <!-- Toroida box -->
+          <rect x="270" y="18" width="232" height="184" rx="12" fill="var(--background)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+          <text x="386" y="42" text-anchor="middle" fill="var(--secondary)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">TOROIDA (Sumbu)</text>
+          <circle cx="386" cy="96" r="36" fill="none" stroke="var(--surface-cyan-wash)" stroke-width="18"/>
+          <circle cx="386" cy="96" r="45" fill="none" stroke="var(--secondary)" stroke-width="1.8"/>
+          <circle cx="386" cy="96" r="27" fill="none" stroke="var(--secondary)" stroke-width="1.8"/>
+          <line x1="386" y1="96" x2="422" y2="96" stroke="var(--error)" stroke-width="2" stroke-dasharray="3 2"/>
+          <text x="404" y="91" text-anchor="middle" fill="var(--error)" font-family="Figtree, sans-serif" font-weight="700" font-size="11">r</text>
+          <text x="386" y="162" text-anchor="middle" fill="var(--on-surface)" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12">r = 10 cm | Nₜ = 600</text>
+          <text x="386" y="184" text-anchor="middle" fill="var(--secondary)" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12">Iₜ = 3 A</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `4π : 9`, isCorrect: true },
+          { id: `o2`, text: `2π : 9`, isCorrect: false },
+          { id: `o3`, text: `8π : 9`, isCorrect: false },
+          { id: `o4`, text: `9 : 4π`, isCorrect: false },
+          { id: `o5`, text: `4 : 9`, isCorrect: false }
+        ],
+        explanation: `1) Di pusat solenoida: B_solenoida = (μ₀ Nₛ Iₛ) / L = (μ₀ × 400 × 2) / 0,20 = 4000 μ₀.
+2) Di sumbu efektif toroida: B_toroida = (μ₀ Nₜ Iₜ) / (2π r) = (μ₀ × 600 × 3) / (2π × 0,10) = 1800 μ₀ / (0,2π) = 9000 μ₀ / π.
+3) Rasio B_solenoida : B_toroida = 4000 μ₀ : (9000 μ₀ / π) = 4π : 9.`
+      },
+      {
+        id: `q9`,
+        type: `hitungan`,
+        topic: `Gaya Lorentz Kawat Segitiga Sama Sisi`,
+        difficulty: `HOTS`,
+        prompt: `Sebuah kawat ditekuk membentuk sudut sama sisi di titik A (panjang sisi CA = AB = 20 cm dengan ∠CAB = 60°) dan diletakkan dalam medan magnet homogen B = 0,4 T yang mengarah masuk bidang gambar (⊗). Jika arus listrik I = 5 A mengalir kontinu dari C → A → B, besar resultan gaya Lorentz pada kedua segmen kawat yang bertemu di sudut A adalah…`,
+        caption: `Diagram 9: Segmen kawat C → A → B (sudut 60°) dalam medan magnet homogen B = 0,4 T masuk bidang.`,
+        svg: `<svg viewBox="0 0 520 245" role="img" aria-label="Diagram kawat sudut segitiga sama sisi CAB dengan arus 5 A dalam medan magnet masuk bidang">
+          <defs>
+            <marker id="arr-q9i" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--warning)"/>
+            </marker>
+          </defs>
+          <!-- Uniform B cross grid -->
+          <rect x="65" y="20" width="390" height="205" rx="12" fill="var(--surface-rose-wash)" stroke="var(--outline-variant)" stroke-width="1.5"/>
+          <g fill="var(--error)" font-family="Figtree, sans-serif" font-weight="700" font-size="14" opacity="0.55">
+            <text x="95" y="48">⊗</text><text x="175" y="48">⊗</text><text x="345" y="48">⊗</text><text x="415" y="48">⊗</text>
+            <text x="95" y="125">⊗</text><text x="415" y="125">⊗</text>
+            <text x="95" y="202">⊗</text><text x="175" y="202">⊗</text><text x="345" y="202">⊗</text><text x="415" y="202">⊗</text>
+          </g>
+          <text x="440" y="45" text-anchor="end" fill="var(--error)" font-family="Figtree, sans-serif" font-weight="800" font-size="13">B = 0,4 T (⊗)</text>
+          <!-- Equilateral triangle reference BC dashed -->
+          <line x1="175" y1="196" x2="345" y2="196" stroke="var(--outline)" stroke-width="1.8" stroke-dasharray="5 4"/>
+          <!-- Wire segments C -> A -> B -->
+          <line x1="345" y1="196" x2="260" y2="48" stroke="var(--primary)" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="260" y1="48" x2="175" y2="196" stroke="var(--primary)" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Current direction arrows -->
+          <line x1="312" y1="138" x2="294" y2="107" stroke="var(--warning)" stroke-width="3" marker-end="url(#arr-q9i)"/>
+          <line x1="226" y1="107" x2="208" y2="138" stroke="var(--warning)" stroke-width="3" marker-end="url(#arr-q9i)"/>
+          <!-- Angle 60 deg at A -->
+          <path d="M 245 74 A 30 30 0 0 0 275 74" fill="none" stroke="var(--secondary)" stroke-width="2.2"/>
+          <text x="260" y="96" text-anchor="middle" fill="var(--secondary)" font-family="Figtree, sans-serif" font-weight="800" font-size="12.5">60°</text>
+          <!-- Labels -->
+          <circle cx="260" cy="48" r="5" fill="var(--on-surface)"/>
+          <text x="260" y="38" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="15">A</text>
+          <text x="160" y="212" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="15">B</text>
+          <text x="360" y="212" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="15">C</text>
+          <text x="195" y="118" text-anchor="end" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="700" font-size="12.5">L = 20 cm</text>
+          <text x="325" y="118" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="700" font-size="12.5">I = 5 A</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `0,4 N`, isCorrect: true },
+          { id: `o2`, text: `0,4√3 N`, isCorrect: false },
+          { id: `o3`, text: `0,8 N`, isCorrect: false },
+          { id: `o4`, text: `0,4√2 N`, isCorrect: false },
+          { id: `o5`, text: `0 N`, isCorrect: false }
+        ],
+        explanation: `1) Besar gaya Lorentz tiap segmen kawat (L = 0,2 m, θ = 90° terhadap B):
+   F_CA = F_AB = I L B sin 90° = 5 × 0,2 × 0,4 × 1 = 0,4 N.
+2) Dengan kaidah tangan kanan (B masuk bidang ⊗):
+   - Segmen CA berarus miring kiri-atas → F_CA tegak lurus CA mengarah miring kiri-bawah (sudut 210°).
+   - Segmen AB berarus miring kiri-bawah → F_AB tegak lurus AB mengarah miring kanan-bawah (sudut 330°).
+3) Sudut apit antara vektor F_CA dan F_AB adalah α = 120° (bukan 60°!).
+   F_total = √(F_CA² + F_AB² + 2 F_CA F_AB cos 120°) = √(0,4² + 0,4² + 2(0,4)(0,4)(−0,5)) = √(0,16) = 0,4 N.`
+      },
+      {
+        id: `q10`,
+        type: `hitungan`,
+        topic: `Gaya Lorentz Muatan Bergerak`,
+        difficulty: `HOTS`,
+        prompt: `Sebuah partikel bermuatan positif q = +4 μC bergerak dengan kelajuan v = 2 × 10⁵ m/s memasuki daerah medan magnet homogen B = 0,5 T (berarah ke kanan) dengan sudut θ = 30° terhadap garis medan magnet seperti pada diagram. Besar dan arah gaya Lorentz yang dialami partikel tersebut adalah…`,
+        caption: `Diagram 10: Muatan positif q = +4 μC bergerak membentuk sudut 30° terhadap medan magnet B ke kanan.`,
+        svg: `<svg viewBox="0 0 520 230" role="img" aria-label="Diagram muatan positif bergerak membentuk sudut 30 derajat terhadap medan magnet homogen ke kanan">
+          <defs>
+            <marker id="arr-q10b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--secondary)"/>
+            </marker>
+            <marker id="arr-q10v" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--primary)"/>
+            </marker>
+          </defs>
+          <!-- Magnetic field lines to the right -->
+          <line x1="65" y1="55" x2="455" y2="55" stroke="var(--secondary)" stroke-width="2" marker-end="url(#arr-q10b)"/>
+          <line x1="65" y1="110" x2="455" y2="110" stroke="var(--secondary)" stroke-width="2" marker-end="url(#arr-q10b)"/>
+          <line x1="65" y1="165" x2="455" y2="165" stroke="var(--secondary)" stroke-width="2" marker-end="url(#arr-q10b)"/>
+          <text x="455" y="40" text-anchor="end" fill="var(--secondary)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">B = 0,5 T (ke kanan)</text>
+          <!-- Angle arc -->
+          <path d="M 218 165 A 58 58 0 0 0 210 136" fill="none" stroke="var(--warning)" stroke-width="2.4"/>
+          <text x="234" y="152" fill="var(--warning)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">θ = 30°</text>
+          <!-- Velocity vector at 30 deg up-right -->
+          <line x1="160" y1="165" x2="310" y2="78" stroke="var(--primary)" stroke-width="4" marker-end="url(#arr-q10v)"/>
+          <text x="315" y="74" fill="var(--primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="14">v = 2 × 10⁵ m/s</text>
+          <!-- Positive charge -->
+          <circle cx="160" cy="165" r="16" fill="var(--error-bright)" stroke="var(--on-surface)" stroke-width="1.8"/>
+          <text x="160" y="171" text-anchor="middle" fill="var(--on-primary)" font-family="Figtree, sans-serif" font-weight="800" font-size="17">+</text>
+          <text x="160" y="202" text-anchor="middle" fill="var(--on-surface)" font-family="Figtree, sans-serif" font-weight="800" font-size="13.5">q = +4 μC</text>
+        </svg>`,
+        options: [
+          { id: `o1`, text: `0,20 N dengan arah masuk bidang gambar (⊗)`, isCorrect: true },
+          { id: `o2`, text: `0,20 N dengan arah keluar bidang gambar (⊙)`, isCorrect: false },
+          { id: `o3`, text: `0,40 N dengan arah masuk bidang gambar (⊗)`, isCorrect: false },
+          { id: `o4`, text: `0,20√3 N dengan arah keluar bidang gambar (⊙)`, isCorrect: false },
+          { id: `o5`, text: `0,40 N dengan arah tegak lurus ke atas pada bidang gambar`, isCorrect: false }
+        ],
+        explanation: `1) Besar Gaya Lorentz muatan bergerak:
+   F = q v B sin θ = (4 × 10⁻⁶ C) × (2 × 10⁵ m/s) × (0,5 T) × sin 30°
+   F = (0,8) × (0,5) × (0,5) = 0,20 N.
+2) Arah gaya (kaidah tangan kanan untuk muatan +q):
+   Ibu jari menunjuk arah v (kanan-atas), empat jari lurus menunjuk arah B (kanan), maka telapak tangan menghadap masuk bidang gambar (⊗).`
+      }
+    ];
+
+    // =========================================================================
+    // INITIALIZATION & SHIM STATE PERSISTENCE
+    // =========================================================================
+    async function initApp() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && Array.isArray(saved.submissions)) {
+            appState.submissions = saved.submissions;
+          }
+        }
+      } catch (err) {
+        // Fallback smoothly if host state is empty
+      }
+
+      setupProctoringListeners();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    async function persistAppState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState({
+            submissions: appState.submissions
+          });
+        }
+      } catch (err) {
+        // Ignore transient write errors cleanly
+      }
+    }
+
+    // =========================================================================
+    // UTILITIES (SHUFFLE, AUDIO BUZZER, NORMALIZATION, ESCAPING)
+    // =========================================================================
+    function shuffleArray(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temp;
+      }
+      return copy;
+    }
+
+    function normalizeStudentKey(name, cls) {
+      const cleanName = String(name || ``).trim().toLowerCase().replace(/\s+/g, `_`);
+      const cleanClass = String(cls || ``).trim().toLowerCase().replace(/\s+/g, `_`);
+      return `quiz_submitted_${cleanName}_${cleanClass}`;
+    }
+
+    function formatTime(totalSec) {
+      const safe = Math.max(0, Math.floor(totalSec));
+      const m = Math.floor(safe / 60);
+      const s = safe % 60;
+      return `${String(m).padStart(2, `0`)}:${String(s).padStart(2, `0`)}`;
+    }
+
+    function formatTimestamp(ms) {
+      const d = new Date(ms);
+      const pad = (n) => String(n).padStart(2, `0`);
+      return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    function escapeHtml(str) {
+      return String(str || ``)
+        .replace(/&/g, `&amp;`)
+        .replace(/</g, `&lt;`)
+        .replace(/>/g, `&gt;`)
+        .replace(/"/g, `&quot;`)
+        .replace(/'/g, `&#39;`);
+    }
+
+    function ensureAudioContext() {
+      const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextCtor) return null;
+      if (!audioCtx) {
+        audioCtx = new AudioContextCtor();
+      }
+      if (audioCtx.state === `suspended`) {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    function playCheatAlarm(isFinalAutoSubmit) {
+      try {
+        const ctx = ensureAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const beepCount = isFinalAutoSubmit ? 4 : 3;
+
+        for (let i = 0; i < beepCount; i++) {
+          const start = now + i * 0.22;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = i % 2 === 0 ? `sawtooth` : `square`;
+          osc.frequency.setValueAtTime(i % 2 === 0 ? 880 : 620, start);
+          osc.frequency.linearRampToValueAtTime(980, start + 0.16);
+
+          gain.gain.setValueAtTime(0.001, start);
+          gain.gain.exponentialRampToValueAtTime(0.28, start + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, start + 0.19);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(start);
+          osc.stop(start + 0.20);
+        }
+      } catch (e) {
+        // Ignore if audio policy blocks autoplay before gesture
+      }
+    }
+
+    function testBuzzerTone() {
+      playCheatAlarm(false);
+      const msgEl = document.getElementById(`buzzer-test-msg`);
+      if (msgEl) {
+        msgEl.textContent = `Bel peringatan aktif & siap.`;
+      }
+    }
+
+    // =========================================================================
+    // LOGIN & SINGLE-ENTRY VALIDATION
+    // =========================================================================
+    function fillClass(className) {
+      const input = document.getElementById(`input-student-class`);
+      if (input) {
+        input.value = className;
+        input.focus();
+      }
+    }
+
+    function showView(viewId) {
+      const views = [`view-login`, `view-quiz`, `view-result`];
+      for (const id of views) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.toggle(`active`, id === viewId);
+        }
+      }
+      window.scrollTo({ top: 0, behavior: `smooth` });
+    }
+
+    function handleStudentLogin(event) {
+      event.preventDefault();
+      ensureAudioContext();
+
+      const nameInput = document.getElementById(`input-student-name`);
+      const classInput = document.getElementById(`input-student-class`);
+      const feedback = document.getElementById(`login-feedback`);
+      const lockedActions = document.getElementById(`locked-result-actions`);
+
+      if (!nameInput || !classInput || !feedback) return;
+
+      const rawName = nameInput.value.trim();
+      const rawClass = classInput.value.trim();
+
+      feedback.classList.remove(`visible`);
+      if (lockedActions) lockedActions.style.display = `none`;
+
+      if (rawName.length < 3 || rawClass.length < 2) {
+        feedback.textContent = `Mohon isi Nama Lengkap (minimal 3 huruf) dan Kelas dengan benar.`;
+        feedback.removeAttribute(`data-tone`);
+        feedback.classList.add(`visible`);
+        return;
+      }
+
+      const key = normalizeStudentKey(rawName, rawClass);
+      const existing = appState.submissions.find((s) => s.studentKey === key);
+
+      if (existing) {
+        currentViewedSubmission = existing;
+        feedback.textContent = `Akses dikunci: ${existing.studentName} (${existing.studentClass}) sudah mengerjakan ulangan ini pada ${existing.submittedAtText} dengan nilai ${existing.score}. Setiap siswa hanya diperbolehkan 1 kali akses.`;
+        feedback.removeAttribute(`data-tone`);
+        feedback.classList.add(`visible`);
+        if (lockedActions) lockedActions.style.display = `block`;
+        return;
+      }
+
+      startNewQuizSession(rawName, rawClass, key);
+    }
+
+    function viewExistingSubmission() {
+      if (!currentViewedSubmission) return;
+      renderResultView(currentViewedSubmission);
+      showView(`view-result`);
+    }
+
+    function returnToLogin() {
+      solutionsUnlocked = false;
+      const codeInput = document.getElementById(`input-solution-code`);
+      if (codeInput) codeInput.value = ``;
+      showView(`view-login`);
+    }
+
+    // =========================================================================
+    // QUIZ SESSION & SHUFFLING
+    // =========================================================================
+    function startNewQuizSession(name, cls, key) {
+      if (activeSession.timerIntervalId) {
+        clearInterval(activeSession.timerIntervalId);
+      }
+
+      const shuffledQuestions = shuffleArray(QUESTION_BANK).map((q) => ({
+        qId: q.id,
+        shuffledOptions: shuffleArray(q.options).map((opt) => ({
+          optId: opt.id,
+          text: opt.text,
+          isCorrect: opt.isCorrect
+        }))
+      }));
+
+      activeSession = {
+        isActive: true,
+        studentName: name,
+        studentClass: cls,
+        studentKey: key,
+        startTimeMs: Date.now(),
+        remainingSeconds: QUIZ_DURATION_SECONDS,
+        timerIntervalId: null,
+        violations: 0,
+        lastViolationMs: 0,
+        isOpeningFilePicker: false,
+        questionsOrder: shuffledQuestions,
+        answers: {},
+        photos: {},
+        displayMode: `single`,
+        currentIndex: 0
+      };
+
+      solutionsUnlocked = false;
+
+      const nameDisp = document.getElementById(`quiz-student-display`);
+      const clsDisp = document.getElementById(`quiz-class-display`);
+      if (nameDisp) nameDisp.textContent = name;
+      if (clsDisp) clsDisp.textContent = `Kelas ${cls}`;
+
+      const feedback = document.getElementById(`quiz-submit-feedback`);
+      if (feedback) feedback.classList.remove(`visible`);
+
+      updateTelemetryUI();
+      renderQuizNavPills();
+      renderQuestions();
+      showView(`view-quiz`);
+
+      activeSession.timerIntervalId = setInterval(() => {
+        if (!activeSession.isActive) return;
+        activeSession.remainingSeconds -= 1;
+        updateTimerUI();
+        if (activeSession.remainingSeconds <= 0) {
+          finalizeQuiz(`Auto-Submit (Waktu 60 Menit Habis)`);
+        }
+      }, 1000);
+    }
+
+    function updateTimerUI() {
+      const timerEl = document.getElementById(`quiz-timer`);
+      const tileEl = document.getElementById(`tile-timer`);
+      if (!timerEl || !tileEl) return;
+
+      timerEl.textContent = formatTime(activeSession.remainingSeconds);
+      if (activeSession.remainingSeconds <= 60) {
+        tileEl.setAttribute(`data-status`, `alert`);
+      } else if (activeSession.remainingSeconds <= 300) {
+        tileEl.setAttribute(`data-status`, `warning`);
+      } else {
+        tileEl.setAttribute(`data-status`, `cyan`);
+      }
+    }
+
+    function updateTelemetryUI() {
+      updateTimerUI();
+
+      const answeredCount = Object.keys(activeSession.answers).length;
+      const photoCount = Object.keys(activeSession.photos).length;
+
+      const progText = document.getElementById(`quiz-progress-text`);
+      const photoText = document.getElementById(`quiz-photo-text`);
+      if (progText) progText.textContent = `${answeredCount} / 10`;
+      if (photoText) photoText.textContent = `Foto HOTS: ${photoCount} / 5`;
+
+      const violText = document.getElementById(`quiz-violations-text`);
+      const violCap = document.getElementById(`quiz-violations-caption`);
+      const violTile = document.getElementById(`tile-violations`);
+      if (violText && violCap && violTile) {
+        violText.textContent = `${activeSession.violations} / ${MAX_VIOLATION_TOLERANCE}`;
+        if (activeSession.violations === 0) {
+          violTile.setAttribute(`data-status`, `ok`);
+          violCap.textContent = `Toleransi aman`;
+        } else if (activeSession.violations === 1) {
+          violTile.setAttribute(`data-status`, `warning`);
+          violCap.textContent = `Peringatan 1 dari 2`;
+        } else {
+          violTile.setAttribute(`data-status`, `alert`);
+          violCap.textContent = `Batas terakhir! Berikutnya auto-submit`;
+        }
+      }
+    }
+
+    function renderQuizNavPills() {
+      const container = document.getElementById(`quiz-nav-pills`);
+      if (!container) return;
+
+      const html = activeSession.questionsOrder.map((entry, idx) => {
+        const qObj = QUESTION_BANK.find((q) => q.id === entry.qId);
+        const isAnswered = Boolean(activeSession.answers[entry.qId]);
+        const isCurrent = activeSession.displayMode === `single` && idx === activeSession.currentIndex;
+        const isHots = qObj && qObj.type === `hitungan`;
+        const hasPhoto = Boolean(activeSession.photos[entry.qId]);
+
+        const classes = [`q-pill`];
+        if (isAnswered) classes.push(`answered`);
+        if (isCurrent) classes.push(`current`);
+
+        const dotHtml = isHots
+          ? `<span class="photo-dot ${hasPhoto ? `uploaded` : ``}" title="${hasPhoto ? `Foto terunggah` : `Wajib unggah foto`}"></span>`
+          : ``;
+
+        return `<button type="button" class="${classes.join(` `)}" onclick="jumpToQuestion(${idx})">${idx + 1}${dotHtml}</button>`;
+      }).join(``);
+
+      container.innerHTML = html;
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById(`questions-container`);
+      if (!container) return;
+
+      const indicesToShow = activeSession.displayMode === `single`
+        ? [activeSession.currentIndex]
+        : activeSession.questionsOrder.map((_, idx) => idx);
+
+      const cardsHtml = indicesToShow.map((idx) => {
+        const entry = activeSession.questionsOrder[idx];
+        const q = QUESTION_BANK.find((item) => item.id === entry.qId);
+        if (!q) return ``;
+
+        const isHots = q.type === `hitungan`;
+        const selectedOptId = activeSession.answers[q.id] || ``;
+        const photoMeta = activeSession.photos[q.id] || null;
+        const photoBlobUrl = (sessionPhotoStore._active && sessionPhotoStore._active[q.id]) || ``;
+
+        const optionsHtml = entry.shuffledOptions.map((opt, optIdx) => {
+          const letter = OPTION_LETTERS[optIdx];
+          const isSelected = selectedOptId === opt.optId;
+          return `
+            <button type="button" class="option-btn ${isSelected ? `selected` : ``}" onclick="selectAnswer('${q.id}', '${opt.optId}')">
+              <span class="option-letter">${letter}</span>
+              <span>${escapeHtml(opt.text)}</span>
+            </button>
+          `;
+        }).join(``);
+
+        const uploadHtml = isHots ? `
+          <div class="upload-box ${photoMeta ? `done` : ``}">
+            <div class="upload-header">
+              <div>
+                <strong style="color: var(--on-surface);">Wajib Unggah Foto Langkah Pengerjaan (Soal Hitungan HOTS)</strong>
+                <div class="form-hint">Foto coretan perhitungan di kertas agar guru dapat memverifikasi proses pengerjaan Anda.</div>
+              </div>
+              <div>
+                <input class="visually-hidden" type="file" id="file-${q.id}" accept="image/*" onchange="handlePhotoUpload('${q.id}', this)">
+                <button type="button" class="btn ${photoMeta ? `btn-secondary` : `btn-cyan`}" onclick="triggerPhotoPicker('${q.id}')">
+                  ${photoMeta ? `Ganti Foto Pengerjaan` : `Unggah Foto Cara Pengerjaan`}
+                </button>
+              </div>
+            </div>
+            ${photoMeta ? `
+              <div class="upload-preview-wrap">
+                ${photoBlobUrl ? `<img class="upload-thumb" src="${photoBlobUrl}" alt="Pratinjau pengerjaan ${q.id}">` : ``}
+                <div>
+                  <span class="chip" data-status="ok">Foto Terunggah</span>
+                  <div style="margin-top: var(--space-xs); font-weight: 600;">${escapeHtml(photoMeta.fileName)}</div>
+                  <div class="form-hint">Ukuran: ${photoMeta.fileSizeText} · Diunggah ${photoMeta.uploadedAt}</div>
+                </div>
+              </div>
+            ` : `<div class="form-hint" style="color: var(--error); font-weight: 600;">Belum ada foto yang diunggah untuk soal ini.</div>`}
+          </div>
+        ` : ``;
+
+        return `
+          <article class="question-card ${isHots ? `hots` : ``}" id="card-${q.id}">
+            <div class="q-header">
+              <div style="display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap;">
+                <span class="q-number">Soal ${idx + 1} dari 10</span>
+                <span class="chip" data-status="${isHots ? `cyan` : ``}">${isHots ? `Hitungan HOTS · Wajib Foto` : `Teori · Mudah`}</span>
+              </div>
+              <span class="chip" data-status="warning">${escapeHtml(q.topic)}</span>
+            </div>
+
+            <div class="q-diagram-box">
+              ${q.svg}
+              <span class="q-diagram-caption">${escapeHtml(q.caption)}</span>
+            </div>
+
+            <p class="q-prompt">${escapeHtml(q.prompt)}</p>
+
+            <div class="options-list">
+              ${optionsHtml}
+            </div>
+
+            ${uploadHtml}
+          </article>
+        `;
+      }).join(``);
+
+      container.innerHTML = cardsHtml;
+      updateBottomNavVisibility();
+    }
+
+    function updateBottomNavVisibility() {
+      const bottomNav = document.getElementById(`quiz-bottom-nav`);
+      const prevBtn = document.getElementById(`btn-prev-q`);
+      const nextBtn = document.getElementById(`btn-next-q`);
+      const toggleBtn = document.getElementById(`btn-toggle-viewmode`);
+
+      if (toggleBtn) {
+        toggleBtn.textContent = activeSession.displayMode === `single`
+          ? `Tampilkan Semua Soal`
+          : `Mode Fokus (1 Soal)`;
+      }
+
+      if (prevBtn) prevBtn.disabled = activeSession.currentIndex <= 0;
+      if (nextBtn) {
+        nextBtn.style.display = activeSession.displayMode === `single` && activeSession.currentIndex < 9
+          ? `inline-flex`
+          : `none`;
+      }
+      if (prevBtn) {
+        prevBtn.style.display = activeSession.displayMode === `single` ? `inline-flex` : `none`;
+      }
+      if (bottomNav) {
+        bottomNav.style.display = `flex`;
+      }
+    }
+
+    function jumpToQuestion(idx) {
+      activeSession.currentIndex = idx;
+      if (activeSession.displayMode === `single`) {
+        renderQuizNavPills();
+        renderQuestions();
+      } else {
+        const entry = activeSession.questionsOrder[idx];
+        const targetCard = entry ? document.getElementById(`card-${entry.qId}`) : null;
+        if (targetCard) targetCard.scrollIntoView({ behavior: `smooth`, block: `start` });
+      }
+    }
+
+    function navigateQuestion(delta) {
+      const nextIdx = activeSession.currentIndex + delta;
+      if (nextIdx >= 0 && nextIdx < activeSession.questionsOrder.length) {
+        activeSession.currentIndex = nextIdx;
+        renderQuizNavPills();
+        renderQuestions();
+        window.scrollTo({ top: 140, behavior: `smooth` });
+      }
+    }
+
+    function toggleQuizDisplayMode() {
+      activeSession.displayMode = activeSession.displayMode === `single` ? `all` : `single`;
+      renderQuizNavPills();
+      renderQuestions();
+    }
+
+    function selectAnswer(qId, optId) {
+      if (!activeSession.isActive) return;
+      activeSession.answers[qId] = optId;
+      updateTelemetryUI();
+      renderQuizNavPills();
+      renderQuestions();
+    }
+
+    function triggerPhotoPicker(qId) {
+      const input = document.getElementById(`file-${qId}`);
+      if (!input) return;
+      activeSession.isOpeningFilePicker = true;
+      setTimeout(() => {
+        activeSession.isOpeningFilePicker = false;
+      }, 15000);
+      input.click();
+    }
+
+    function handlePhotoUpload(qId, inputEl) {
+      activeSession.isOpeningFilePicker = false;
+      if (!inputEl || !inputEl.files || !inputEl.files[0]) return;
+      const file = inputEl.files[0];
+
+      if (!sessionPhotoStore._active) sessionPhotoStore._active = {};
+      if (sessionPhotoStore._active[qId]) {
+        try { URL.revokeObjectURL(sessionPhotoStore._active[qId]); } catch (e) {}
+      }
+
+      const blobUrl = URL.createObjectURL(file);
+      sessionPhotoStore._active[qId] = blobUrl;
+
+      const sizeKB = Math.max(1, Math.round(file.size / 1024));
+      activeSession.photos[qId] = {
+        fileName: file.name,
+        fileSizeText: sizeKB >= 1024 ? `${(sizeKB / 1024).toFixed(2)} MB` : `${sizeKB} KB`,
+        uploadedAt: formatTimestamp(Date.now())
+      };
+
+      updateTelemetryUI();
+      renderQuizNavPills();
+      renderQuestions();
+    }
+
+    // =========================================================================
+    // ANTI-CHEATING PROCTORING (VISIBILITYCHANGE + WINDOW BLUR)
+    // =========================================================================
+    function setupProctoringListeners() {
+      document.addEventListener(`visibilitychange`, () => {
+        if (document.hidden) {
+          handlePotentialTabCheat(`Anda berpindah ke tab atau aplikasi lain.`);
+        }
+      });
+
+      window.addEventListener(`blur`, () => {
+        handlePotentialTabCheat(`Jendela kuis kehilangan fokus (berpindah layar/aplikasi).`);
+      });
+
+      window.addEventListener(`focus`, () => {
+        if (activeSession.isOpeningFilePicker) {
+          setTimeout(() => {
+            activeSession.isOpeningFilePicker = false;
+          }, 400);
+        }
+      });
+    }
+
+    function handlePotentialTabCheat(reasonText) {
+      if (!activeSession.isActive) return;
+      if (activeSession.isOpeningFilePicker) return;
+
+      const teacherModal = document.getElementById(`modal-teacher`);
+      if (teacherModal && teacherModal.classList.contains(`open`)) return;
+
+      const now = Date.now();
+      if (now - activeSession.lastViolationMs < 1200) return;
+      activeSession.lastViolationMs = now;
+
+      activeSession.violations += 1;
+      updateTelemetryUI();
+
+      if (activeSession.violations > MAX_VIOLATION_TOLERANCE) {
+        playCheatAlarm(true);
+        const warnModal = document.getElementById(`modal-proctor-warning`);
+        if (warnModal) warnModal.classList.remove(`open`);
+        finalizeQuiz(`Auto-Submit Paksa (Pelanggaran Keluar Tab ke-3)`);
+        return;
+      }
+
+      playCheatAlarm(false);
+      const modal = document.getElementById(`modal-proctor-warning`);
+      const bodyEl = document.getElementById(`proctor-modal-body`);
+      const countEl = document.getElementById(`proctor-modal-count`);
+
+      if (bodyEl) bodyEl.textContent = reasonText;
+      if (countEl) {
+        countEl.textContent = `Pelanggaran ke-${activeSession.violations} dari maksimal ${MAX_VIOLATION_TOLERANCE} kali toleransi.`;
+      }
+      if (modal) modal.classList.add(`open`);
+    }
+
+    function dismissProctorWarning() {
+      const modal = document.getElementById(`modal-proctor-warning`);
+      if (modal) modal.classList.remove(`open`);
+    }
+
+    // =========================================================================
+    // SUBMIT & SCORING
+    // =========================================================================
+    function attemptSubmitQuiz(btnEl) {
+      if (!activeSession.isActive) return;
+      const feedback = document.getElementById(`quiz-submit-feedback`);
+      const answeredCount = Object.keys(activeSession.answers).length;
+      const photoCount = Object.keys(activeSession.photos).length;
+
+      const missingItems = [];
+      if (answeredCount < 10) missingItems.push(`${10 - answeredCount} soal belum dipilih jawabannya`);
+      if (photoCount < 5) missingItems.push(`${5 - photoCount} soal hitungan HOTS belum memiliki foto pengerjaan`);
+
+      if (missingItems.length > 0 && btnEl && btnEl.dataset.armed !== `true`) {
+        btnEl.dataset.armed = `true`;
+        btnEl.textContent = `Klik Sekali Lagi untuk Tetap Kumpulkan`;
+        if (feedback) {
+          feedback.textContent = `Perhatian: ${missingItems.join(` dan `)}. Lengkapi terlebih dahulu atau klik tombol "Klik Sekali Lagi" untuk mengumpulkan sekarang.`;
+          feedback.removeAttribute(`data-tone`);
+          feedback.classList.add(`visible`);
+        }
+        return;
+      }
+
+      if (btnEl) {
+        btnEl.dataset.armed = `false`;
+        btnEl.textContent = `Kumpulkan Ulangan`;
+      }
+      finalizeQuiz(`Dikumpulkan Siswa`);
+    }
+
+    async function finalizeQuiz(statusLabel) {
+      if (!activeSession.isActive) return;
+      activeSession.isActive = false;
+      if (activeSession.timerIntervalId) {
+        clearInterval(activeSession.timerIntervalId);
+        activeSession.timerIntervalId = null;
+      }
+
+      let teoriCorrect = 0;
+      let hitunganCorrect = 0;
+
+      const questionDetails = activeSession.questionsOrder.map((entry, idx) => {
+        const q = QUESTION_BANK.find((item) => item.id === entry.qId);
+        const chosenOptId = activeSession.answers[entry.qId] || null;
+        const chosenOptIndex = entry.shuffledOptions.findIndex((o) => o.optId === chosenOptId);
+        const chosenOptObj = chosenOptIndex >= 0 ? entry.shuffledOptions[chosenOptIndex] : null;
+        const correctOptIndex = entry.shuffledOptions.findIndex((o) => o.isCorrect);
+        const correctOptObj = correctOptIndex >= 0 ? entry.shuffledOptions[correctOptIndex] : null;
+        const isCorrect = Boolean(chosenOptObj && chosenOptObj.isCorrect);
+
+        if (isCorrect) {
+          if (q && q.type === `teori`) teoriCorrect += 1;
+          else hitunganCorrect += 1;
+        }
+
+        return {
+          displayNo: idx + 1,
+          qId: entry.qId,
+          chosenOptId: chosenOptId,
+          chosenLetter: chosenOptIndex >= 0 ? OPTION_LETTERS[chosenOptIndex] : `—`,
+          chosenText: chosenOptObj ? chosenOptObj.text : `Tidak dijawab`,
+          correctLetter: correctOptIndex >= 0 ? OPTION_LETTERS[correctOptIndex] : `—`,
+          correctText: correctOptObj ? correctOptObj.text : ``,
+          isCorrect: isCorrect,
+          photoMeta: activeSession.photos[entry.qId] || null
+        };
+      });
+
+      const totalCorrect = teoriCorrect + hitunganCorrect;
+      const finalScore = totalCorrect * 10;
+      const submissionId = `sub_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+      const nowMs = Date.now();
+      const durationUsedSec = Math.max(1, QUIZ_DURATION_SECONDS - activeSession.remainingSeconds);
+
+      // Transfer active session blob URLs to submissionId store
+      if (sessionPhotoStore._active) {
+        sessionPhotoStore[submissionId] = Object.assign({}, sessionPhotoStore._active);
+        delete sessionPhotoStore._active;
+      }
+
+      const submissionRecord = {
+        id: submissionId,
+        studentKey: activeSession.studentKey,
+        studentName: activeSession.studentName,
+        studentClass: activeSession.studentClass,
+        score: finalScore,
+        teoriCorrect: teoriCorrect,
+        hitunganCorrect: hitunganCorrect,
+        photoCount: Object.keys(activeSession.photos).length,
+        violations: activeSession.violations,
+        status: statusLabel,
+        submittedAtMs: nowMs,
+        submittedAtText: formatTimestamp(nowMs),
+        durationUsedText: formatTime(durationUsedSec),
+        details: questionDetails
+      };
+
+      appState.submissions.push(submissionRecord);
+      await persistAppState();
+
+      currentViewedSubmission = submissionRecord;
+      renderResultView(submissionRecord);
+      showView(`view-result`);
+    }
+
+    // =========================================================================
+    // RESULT VIEW, WHATSAPP FORMAT & LOCKED PEMBAHASAN
+    // =========================================================================
+    function buildStudentWaMessage(sub) {
+      return [
+        `*LAPORAN HASIL ULANGAN HARIAN FISIKA XII*`,
+        `Materi: Medan Magnet`,
+        `────────────────────────`,
+        `Nama Siswa : ${sub.studentName}`,
+        `Kelas      : ${sub.studentClass}`,
+        `Nilai Akhir: *${sub.score} / 100*`,
+        `Rincian    : Teori ${sub.teoriCorrect}/5 · Hitungan HOTS ${sub.hitunganCorrect}/5`,
+        `Foto HOTS  : ${sub.photoCount}/5 terunggah`,
+        `Proctoring : ${sub.violations} pelanggaran tab`,
+        `Status     : ${sub.status}`,
+        `Waktu      : ${sub.submittedAtText}`,
+        `────────────────────────`,
+        `Sumber Kuis: Aplikasi Ulangan Harian Fisika XII — Medan Magnet`
+      ].join(`\n`);
+    }
+
+    function renderResultView(sub) {
+      const heading = document.getElementById(`result-student-heading`);
+      const meta = document.getElementById(`result-meta-line`);
+      const statusChip = document.getElementById(`result-status-chip`);
+      const scoreVal = document.getElementById(`result-score-val`);
+      const scoreTile = document.getElementById(`result-score-tile`);
+      const scoreCap = document.getElementById(`result-score-caption`);
+      const breakVal = document.getElementById(`result-breakdown-val`);
+      const breakCap = document.getElementById(`result-breakdown-caption`);
+      const photosVal = document.getElementById(`result-photos-val`);
+      const violVal = document.getElementById(`result-viol-val`);
+      const violTile = document.getElementById(`result-viol-tile`);
+      const violCap = document.getElementById(`result-viol-caption`);
+      const waPreview = document.getElementById(`wa-student-preview`);
+
+      if (heading) heading.textContent = `${sub.studentName} (${sub.studentClass})`;
+      if (meta) meta.textContent = `Dikumpulkan pada ${sub.submittedAtText} · Lama pengerjaan ${sub.durationUsedText}`;
+
+      if (statusChip) {
+        statusChip.textContent = sub.status;
+        statusChip.setAttribute(`data-status`, sub.violations >= 3 ? `alert` : `ok`);
+      }
+
+      if (scoreVal) scoreVal.textContent = `${sub.score}`;
+      if (scoreTile) scoreTile.setAttribute(`data-status`, sub.score >= 75 ? `ok` : `warning`);
+      if (scoreCap) scoreCap.textContent = sub.score >= 75 ? `Tuntas (≥ 75)` : `Perlu penguatan konsep (< 75)`;
+
+      if (breakVal) breakVal.textContent = `${sub.teoriCorrect + sub.hitunganCorrect} / 10`;
+      if (breakCap) breakCap.textContent = `Teori: ${sub.teoriCorrect}/5 · Hitungan HOTS: ${sub.hitunganCorrect}/5`;
+      if (photosVal) photosVal.textContent = `${sub.photoCount} / 5`;
+
+      if (violVal) violVal.textContent = `${sub.violations} / ${MAX_VIOLATION_TOLERANCE}`;
+      if (violTile) violTile.setAttribute(`data-status`, sub.violations === 0 ? `ok` : sub.violations <= 2 ? `warning` : `alert`);
+      if (violCap) violCap.textContent = sub.violations === 0 ? `Tidak ada pelanggaran tab` : `${sub.violations} kali terdeteksi keluar tab`;
+
+      if (waPreview) waPreview.textContent = buildStudentWaMessage(sub);
+
+      const copyStatus = document.getElementById(`wa-copy-status`);
+      if (copyStatus) copyStatus.textContent = ``;
+
+      const solLockCard = document.getElementById(`solutions-lock-card`);
+      const solContainer = document.getElementById(`solutions-container`);
+      if (solutionsUnlocked) {
+        if (solLockCard) solLockCard.style.display = `none`;
+        if (solContainer) {
+          solContainer.style.display = `grid`;
+          renderSolutions(sub);
+        }
+      } else {
+        if (solLockCard) solLockCard.style.display = `block`;
+        if (solContainer) solContainer.style.display = `none`;
+      }
+    }
+
+    function copyTextToClipboard(text, statusEl, successMessage) {
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === `function`) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (statusEl) statusEl.textContent = successMessage;
+        }).catch(() => {
+          fallbackCopy(text, statusEl, successMessage);
+        });
+      } else {
+        fallbackCopy(text, statusEl, successMessage);
+      }
+    }
+
+    function fallbackCopy(text, statusEl, successMessage) {
+      const ta = document.createElement(`textarea`);
+      ta.value = text;
+      ta.style.position = `fixed`;
+      ta.style.opacity = `0`;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand(`copy`);
+        if (statusEl) statusEl.textContent = successMessage;
+      } catch (e) {
+        if (statusEl) statusEl.textContent = `Silakan salin manual teks di kotak atas.`;
+      }
+      document.body.removeChild(ta);
+    }
+
+    function copyStudentWaReport() {
+      if (!currentViewedSubmission) return;
+      const msg = buildStudentWaMessage(currentViewedSubmission);
+      const statusEl = document.getElementById(`wa-copy-status`);
+      copyTextToClipboard(msg, statusEl, `Format pesan WhatsApp tersalin! Silakan tempel (Paste) di WA Group.`);
+    }
+
+    function unlockSolutions() {
+      const input = document.getElementById(`input-solution-code`);
+      const feedback = document.getElementById(`solution-code-feedback`);
+      if (!input || !feedback) return;
+
+      const entered = input.value.trim();
+      if (entered !== ACCESS_CODE) {
+        feedback.textContent = `Kode akses salah. Mintalah kode akses resmi dari guru mata pelajaran Fisika.`;
+        feedback.removeAttribute(`data-tone`);
+        feedback.classList.add(`visible`);
+        return;
+      }
+
+      feedback.classList.remove(`visible`);
+      solutionsUnlocked = true;
+      if (currentViewedSubmission) {
+        renderResultView(currentViewedSubmission);
+      }
+    }
+
+    function renderSolutions(sub) {
+      const container = document.getElementById(`solutions-container`);
+      if (!container) return;
+
+      const html = sub.details.map((det) => {
+        const q = QUESTION_BANK.find((item) => item.id === det.qId);
+        if (!q) return ``;
+
+        return `
+          <article class="solution-item ${det.isCorrect ? `correct` : `wrong`}">
+            <div class="q-header">
+              <div style="display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap;">
+                <span class="q-number" style="font-size: 1.2rem;">Pembahasan Soal ${det.displayNo}</span>
+                <span class="chip" data-status="${det.isCorrect ? `ok` : `alert`}">${det.isCorrect ? `Jawaban Benar (+10)` : `Belum Tepat (+0)`}</span>
+                <span class="chip" data-status="${q.type === `hitungan` ? `cyan` : ``}">${escapeHtml(q.topic)}</span>
+              </div>
+            </div>
+
+            <div class="q-diagram-box">
+              ${q.svg}
+            </div>
+
+            <p style="margin: 0;"><strong>Pertanyaan:</strong> ${escapeHtml(q.prompt)}</p>
+
+            <div style="display: grid; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--rounded); background: var(--surface-container-low);">
+              <div><strong>Jawaban Anda (${det.chosenLetter}):</strong> ${escapeHtml(det.chosenText)}</div>
+              <div style="color: var(--tertiary);"><strong>Kunci Jawaban Benar (${det.correctLetter}):</strong> ${escapeHtml(det.correctText)}</div>
+            </div>
+
+            <div class="status-card" data-status="ok">
+              <strong>Pembahasan &amp; Langkah Penyelesaian:</strong>
+              <p style="margin: var(--space-xs) 0 0; white-space: pre-line;">${escapeHtml(q.explanation)}</p>
+            </div>
+          </article>
+        `;
+      }).join(``);
+
+      container.innerHTML = html;
+    }
+
+    // =========================================================================
+    // PANEL GURU (TEACHER DASHBOARD, PHOTO MODAL, CSV, WA RECAP, RESET)
+    // =========================================================================
+    function openTeacherModal() {
+      const modal = document.getElementById(`modal-teacher`);
+      if (!modal) return;
+      modal.classList.add(`open`);
+      updateTeacherAuthView();
+    }
+
+    function closeTeacherModal() {
+      const modal = document.getElementById(`modal-teacher`);
+      if (modal) modal.classList.remove(`open`);
+    }
+
+    function updateTeacherAuthView() {
+      const gate = document.getElementById(`teacher-auth-gate`);
+      const dash = document.getElementById(`teacher-dashboard-content`);
+      if (!gate || !dash) return;
+
+      if (teacherAuthenticated) {
+        gate.style.display = `none`;
+        dash.style.display = `grid`;
+        renderTeacherDashboard();
+      } else {
+        gate.style.display = `block`;
+        dash.style.display = `none`;
+      }
+    }
+
+    function authenticateTeacher(event) {
+      event.preventDefault();
+      const input = document.getElementById(`input-teacher-code`);
+      const feedback = document.getElementById(`teacher-auth-feedback`);
+      if (!input || !feedback) return;
+
+      if (input.value.trim() !== ACCESS_CODE) {
+        feedback.textContent = `Kode akses guru tidak valid.`;
+        feedback.removeAttribute(`data-tone`);
+        feedback.classList.add(`visible`);
+        return;
+      }
+
+      feedback.classList.remove(`visible`);
+      teacherAuthenticated = true;
+      updateTeacherAuthView();
+    }
+
+    function renderTeacherDashboard() {
+      const subs = appState.submissions;
+      const total = subs.length;
+      const avg = total > 0 ? Math.round((subs.reduce((acc, s) => acc + s.score, 0) / total) * 10) / 10 : 0;
+
+      let maxScore = 0;
+      let maxStudent = `—`;
+      let totalViol = 0;
+
+      for (const s of subs) {
+        totalViol += s.violations || 0;
+        if (s.score >= maxScore) {
+          maxScore = s.score;
+          maxStudent = `${s.studentName} (${s.studentClass})`;
+        }
+      }
+
+      const elTotal = document.getElementById(`td-total-students`);
+      const elAvg = document.getElementById(`td-avg-score`);
+      const elMax = document.getElementById(`td-max-score`);
+      const elMaxStu = document.getElementById(`td-max-student`);
+      const elViol = document.getElementById(`td-total-violations`);
+
+      if (elTotal) elTotal.textContent = `${total}`;
+      if (elAvg) elAvg.textContent = `${avg}`;
+      if (elMax) elMax.textContent = total > 0 ? `${maxScore}` : `0`;
+      if (elMaxStu) elMaxStu.textContent = total > 0 ? maxStudent : `Belum ada peserta`;
+      if (elViol) elViol.textContent = `${totalViol}`;
+
+      renderTeacherTable();
+    }
+
+    function renderTeacherTable() {
+      const tbody = document.getElementById(`td-table-body`);
+      const filterEl = document.getElementById(`td-filter-class`);
+      if (!tbody) return;
+
+      const query = filterEl ? filterEl.value.trim().toLowerCase() : ``;
+      const filtered = appState.submissions.filter((s) => {
+        if (!query) return true;
+        return s.studentName.toLowerCase().includes(query) || s.studentClass.toLowerCase().includes(query);
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align: center; padding: var(--space-lg); color: var(--on-surface-variant);">
+              ${appState.submissions.length === 0 ? `Belum ada siswa yang mengumpulkan ulangan.` : `Tidak ada data siswa yang cocok dengan filter pencarian.`}
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      const rowsHtml = filtered.map((s, idx) => {
+        const violChipStatus = s.violations === 0 ? `ok` : s.violations <= 2 ? `warning` : `alert`;
+        return `
+          <tr>
+            <td class="num-cell">${idx + 1}</td>
+            <td><strong>${escapeHtml(s.studentName)}</strong><br><span class="form-hint">${escapeHtml(s.status)}</span></td>
+            <td>${escapeHtml(s.studentClass)}</td>
+            <td class="num-cell" style="color: ${s.score >= 75 ? `var(--tertiary)` : `var(--error)`};">${s.score}</td>
+            <td class="num-cell">${s.teoriCorrect}/5 · ${s.hitunganCorrect}/5</td>
+            <td style="white-space: nowrap;">${escapeHtml(s.submittedAtText)}</td>
+            <td><span class="chip" data-status="${violChipStatus}">${s.violations} kali</span></td>
+            <td>
+              <button type="button" class="btn btn-ghost" style="min-height: 36px; padding: 4px 10px;" onclick="openPhotoModal('${s.id}')">
+                Lihat Foto (${s.photoCount})
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-secondary" style="min-height: 36px; padding: 4px 10px;" onclick="copyIndividualWaFromTeacher('${s.id}')">
+                Salin WA
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join(``);
+
+      tbody.innerHTML = rowsHtml;
+    }
+
+    function openPhotoModal(submissionId) {
+      const sub = appState.submissions.find((s) => s.id === submissionId);
+      const modal = document.getElementById(`modal-photo-preview`);
+      const titleEl = document.getElementById(`photo-modal-title`);
+      const contentEl = document.getElementById(`photo-modal-content`);
+      if (!sub || !modal || !contentEl) return;
+
+      if (titleEl) titleEl.textContent = `Foto Pengerjaan HOTS — ${sub.studentName} (${sub.studentClass})`;
+
+      const hotsDetails = sub.details.filter((d) => {
+        const q = QUESTION_BANK.find((item) => item.id === d.qId);
+        return q && q.type === `hitungan`;
+      });
+
+      const cardsHtml = hotsDetails.map((d) => {
+        const q = QUESTION_BANK.find((item) => item.id === d.qId);
+        const blobUrl = (sessionPhotoStore[sub.id] && sessionPhotoStore[sub.id][d.qId]) || ``;
+        const meta = d.photoMeta;
+
+        let bodyHtml = `<div class="form-hint" style="color: var(--error);">Siswa tidak mengunggah foto pada soal ini.</div>`;
+        if (meta && blobUrl) {
+          bodyHtml = `
+            <img class="gallery-img" src="${blobUrl}" alt="Foto pengerjaan ${escapeHtml(q ? q.topic : d.qId)}">
+            <div class="form-hint">${escapeHtml(meta.fileName)} (${escapeHtml(meta.fileSizeText)}) · ${escapeHtml(meta.uploadedAt)}</div>
+          `;
+        } else if (meta) {
+          bodyHtml = `
+            <div class="status-card" data-status="cyan" style="padding: var(--space-sm);">
+              <strong>Berkas tercatat terunggah:</strong> ${escapeHtml(meta.fileName)} (${escapeHtml(meta.fileSizeText)})
+              <div class="form-hint">Pratinjau gambar langsung hanya tersedia pada sesi peramban saat pengunggahan dilakukan karena batas penyimpanan aman sandbox.</div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="gallery-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs);">
+              <strong>Soal #${d.displayNo} (${escapeHtml(q ? q.topic : ``)})</strong>
+              <span class="chip" data-status="${d.isCorrect ? `ok` : `alert`}">${d.isCorrect ? `Benar` : `Salah`}</span>
+            </div>
+            ${bodyHtml}
+          </div>
+        `;
+      }).join(``);
+
+      contentEl.innerHTML = cardsHtml;
+      modal.classList.add(`open`);
+    }
+
+    function closePhotoModal() {
+      const modal = document.getElementById(`modal-photo-preview`);
+      if (modal) modal.classList.remove(`open`);
+    }
+
+    function showTeacherFeedback(message, tone) {
+      const fb = document.getElementById(`td-action-feedback`);
+      if (!fb) return;
+      fb.textContent = message;
+      if (tone) fb.setAttribute(`data-tone`, tone);
+      else fb.removeAttribute(`data-tone`);
+      fb.classList.add(`visible`);
+    }
+
+    function copyIndividualWaFromTeacher(submissionId) {
+      const sub = appState.submissions.find((s) => s.id === submissionId);
+      if (!sub) return;
+      const msg = buildStudentWaMessage(sub);
+      const previewWrap = document.getElementById(`td-wa-preview-wrap`);
+      const previewEl = document.getElementById(`td-wa-preview`);
+      if (previewWrap && previewEl) {
+        previewEl.textContent = msg;
+        previewWrap.style.display = `block`;
+      }
+      copyTextToClipboard(msg, null, ``);
+      showTeacherFeedback(`Pesan WA individu untuk ${sub.studentName} disalin! Siap ditempel ke WhatsApp Group.`, `ok`);
+    }
+
+    function copyClassWaRecap() {
+      if (appState.submissions.length === 0) {
+        showTeacherFeedback(`Belum ada data siswa untuk dikirim ke WhatsApp Group.`, ``);
+        return;
+      }
+
+      const lines = [
+        `*REKAPITULASI NILAI ULANGAN HARIAN FISIKA XII*`,
+        `Materi: Medan Magnet`,
+        `Total Peserta: ${appState.submissions.length} siswa`,
+        `────────────────────────`
+      ];
+
+      appState.submissions.forEach((s, i) => {
+        lines.push(`${i + 1}. ${s.studentName} (${s.studentClass}) — *${s.score}* | Foto: ${s.photoCount}/5 | Tab: ${s.violations}x`);
+      });
+
+      lines.push(`────────────────────────`);
+      lines.push(`Rekap otomatis dari Panel Guru Ulangan Harian Fisika XII`);
+
+      const msg = lines.join(`\n`);
+      const previewWrap = document.getElementById(`td-wa-preview-wrap`);
+      const previewEl = document.getElementById(`td-wa-preview`);
+      if (previewWrap && previewEl) {
+        previewEl.textContent = msg;
+        previewWrap.style.display = `block`;
+      }
+      copyTextToClipboard(msg, null, ``);
+      showTeacherFeedback(`Rekapitulasi kelas (${appState.submissions.length} siswa) berhasil disalin untuk WA Group!`, `ok`);
+    }
+
+    function exportSubmissionsCsv() {
+      if (appState.submissions.length === 0) {
+        showTeacherFeedback(`Belum ada data nilai untuk diekspor ke CSV.`, ``);
+        return;
+      }
+
+      const csvSafe = (val) => `"${String(val || ``).replace(/"/g, `""`)}"`;
+      const header = [`No`, `Nama Siswa`, `Kelas`, `Nilai Akhir`, `Benar Teori`, `Benar Hitungan`, `Foto HOTS`, `Pelanggaran Tab`, `Status`, `Waktu Selesai`, `Durasi`];
+      const rows = [header.map(csvSafe).join(`,`)];
+
+      appState.submissions.forEach((s, i) => {
+        rows.push([
+          i + 1,
+          s.studentName,
+          s.studentClass,
+          s.score,
+          s.teoriCorrect,
+          s.hitunganCorrect,
+          `${s.photoCount}/5`,
+          s.violations,
+          s.status,
+          s.submittedAtText,
+          s.durationUsedText
+        ].map(csvSafe).join(`,`));
+      });
+
+      const csvString = `\uFEFF` + rows.join(`\n`);
+      const filename = `rekap_nilai_medan_magnet_xii.csv`;
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: csvString,
+          contentType: `text/csv`,
+          encoding: `UTF-8`,
+          filename: filename
+        });
+      } else {
+        const blob = new Blob([csvString], { type: `text/csv;charset=utf-8;` });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement(`a`);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      showTeacherFeedback(`Berhasil mengekspor file ${filename}.`, `ok`);
+    }
+
+    async function resetAllSubmissions(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Klik Sekali Lagi untuk Hapus Semua`;
+        showTeacherFeedback(`Peringatan: Klik tombol merah sekali lagi untuk mereset seluruh data nilai siswa.`, ``);
+        return;
+      }
+
+      btn.dataset.armed = `false`;
+      btn.textContent = `Reset Data Siswa`;
+      appState.submissions = [];
+      currentViewedSubmission = null;
+      await persistAppState();
+
+      const previewWrap = document.getElementById(`td-wa-preview-wrap`);
+      if (previewWrap) previewWrap.style.display = `none`;
+
+      renderTeacherDashboard();
+      showTeacherFeedback(`Seluruh data nilai dan kunci akses siswa telah direset.`, `ok`);
+    }
+
+    // Boot
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
